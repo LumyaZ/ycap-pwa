@@ -5,7 +5,8 @@
 }
 
 .carroussel-scrolling {
-    overflow-x: auto;
+    overflow-y: auto;
     display: flex;
     height: 200px;
+    max-width: 500em;
 }

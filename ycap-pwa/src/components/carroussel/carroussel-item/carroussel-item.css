@@ -3,6 +3,7 @@
     height: 150px; 
     margin-right: 10px;
     margin-left: 10px;
+    flex-shrink: 0;
     position: relative; 
   }
   

@@ -8,6 +8,11 @@ function Carroussel() {
     <div className='carroussel-position'>
       <div className="carroussel-scrolling">
         <CarouselItem />
+        <CarouselItem />
+        <CarouselItem />
+        <CarouselItem />
+        <CarouselItem />
+        <CarouselItem />
       </div>
     </div>
     
