@@ -1,0 +1,21 @@
+/* Main.css */
+:root {
+    --hot-background-color: #FAE3D5;
+    --cold-background-color: #C2E4FF;
+}
+  
+.background-hot {
+    background-color: var(--hot-background-color);
+}
+  
+.background-cold {
+    background-color: var(--cold-background-color);
+}
+
+.background{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
