@@ -1,0 +1,28 @@
+.info-portail {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    transition: bottom 0.3s ease;
+  }
+  
+  .info-portail.visible {
+    bottom: 0;
+  }
+  
+  .info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .info-content {
+    padding: 20px;
+  }
+  
+  .info-header button {
+    cursor: pointer;
+  }
+  

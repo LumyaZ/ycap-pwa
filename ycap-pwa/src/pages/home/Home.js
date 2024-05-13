@@ -6,6 +6,8 @@ import indicatorchoix from '../../assets/indicatorChoix.png';
 import croix from '../../assets/croix.png';
 import headHome from '../../assets/headHome.png';
 import burger from '../../assets/burger.png';
+import InfoPortail from '../../components/info-portail/infoPortail.js';
+
 function Home() {
   return (
     <div>
@@ -41,6 +43,7 @@ function Home() {
           <button className="footer-button">i</button>
         </footer>
       </div>
+      <InfoPortail title="Titre de l'Info" />
     </div>
   );
 }
