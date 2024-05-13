@@ -1,10 +1,9 @@
 import './carroussel-item.css';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function CarouselItem({ onInfoClick }) {
-
   const handleInfoClick = () => {
-    console.log("ok")
     onInfoClick(); 
   };
 
@@ -12,7 +11,7 @@ function CarouselItem({ onInfoClick }) {
     <div className="carousel-item">
       <div className="square">
         <h3 className='item-title'>Red Point</h3>
-        <button className='button-choice'>choisir</button>
+        <Link to="/main" className='button-choice'>choisir</Link>
       </div>
       <div className="small-square"></div>
       <button className="circle" onClick={handleInfoClick}>info</button>

@@ -19,7 +19,6 @@ function Home() {
   };
 
   const handleToggleInfoPortail = () => {
-    console.log('dqdqdqdqd')
     setInfoPortailOpen(!infoPortailOpen);
   };
 
