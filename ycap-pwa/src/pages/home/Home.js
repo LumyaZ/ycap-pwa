@@ -1,20 +1,26 @@
 import React, { useState }  from 'react';
 import './Home.css';
 import Concept from '../../components/concept/concept';
-import Carroussel from '../../components/carroussel/carroussel';
 import indicatorchoix from '../../assets/indicatorChoix.png';
 import croix from '../../assets/croix.png';
 import headHome from '../../assets/headHome.png';
 import burger from '../../assets/burger.png';
 import VerticalMenu from '../../components/vertical-menu/verticalMenu';
 import arrow from '../../assets/arrow.png';
-
+import CarouselItem from '../../components/carroussel/carroussel-item/carroussel-item.js';
+import InfoPortail from '../../components/info-portail/infoPortail.js';
 
 function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [infoPortailOpen, setInfoPortailOpen] = useState(false);
 
   const handleToggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const handleToggleInfoPortail = () => {
+    console.log('dqdqdqdqd')
+    setInfoPortailOpen(!infoPortailOpen);
   };
 
   return (
@@ -23,12 +29,21 @@ function Home() {
         <div className="blue-section">
           <div className="header">
             <h2 className='header-title'>Hello there !</h2>
-            <img src={arrow} alt="Fleche" className='img-arrow-home'/>
+            <img src={arrow} alt="arrow" className='img-arrow-home'/>
           </div>
           <Concept/>
         </div>
         <div className="dark-blue-section">
-          <Carroussel />
+          <div className='carroussel-position'>
+            <div className="carroussel-scrolling">
+              <CarouselItem onInfoClick={handleToggleInfoPortail}/>
+              <CarouselItem onInfoClick={handleToggleInfoPortail}/>
+              <CarouselItem onInfoClick={handleToggleInfoPortail}/>
+              <CarouselItem onInfoClick={handleToggleInfoPortail}/>
+              <CarouselItem onInfoClick={handleToggleInfoPortail}/>
+              <CarouselItem onInfoClick={handleToggleInfoPortail}/>
+            </div>
+          </div>
         </div>
         <div className="pink-section">
           <div className="left-zone">
@@ -52,6 +67,7 @@ function Home() {
           <button className="footer-button">i</button>
         </footer>
         <VerticalMenu isOpen={menuOpen} onClose={handleToggleMenu} />
+        <InfoPortail isOpen={infoPortailOpen} onClose={handleToggleInfoPortail} />
 
       </div>
     </div>

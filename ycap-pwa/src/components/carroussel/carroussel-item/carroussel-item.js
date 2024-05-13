@@ -1,17 +1,11 @@
 import './carroussel-item.css';
-import React, { useState } from 'react';
-import InfoPortail from '../../info-portail/infoPortail';
-function CarouselItem() {
+import React from 'react';
 
-  const [showInfo, setShowInfo] = useState(false);
+function CarouselItem({ onInfoClick }) {
 
   const handleInfoClick = () => {
-    console.log('ok')
-    setShowInfo(true);
-  };
-
-  const handleCloseInfo = () => {
-    setShowInfo(false);
+    console.log("ok")
+    onInfoClick(); 
   };
 
   return (
@@ -21,10 +15,7 @@ function CarouselItem() {
         <button className='button-choice'>choisir</button>
       </div>
       <div className="small-square"></div>
-      <div className="circle">
-        <button className='button-info' onClick={handleInfoClick}>info</button>
-      </div>
-      {showInfo && <InfoPortail onClose={handleCloseInfo} />}
+      <button className="circle" onClick={handleInfoClick}>info</button>
     </div>
   );
 }

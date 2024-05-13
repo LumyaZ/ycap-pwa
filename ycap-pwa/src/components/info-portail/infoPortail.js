@@ -1,18 +1,19 @@
 import './infoPortail.css';
 import React from 'react';
+import iconsRedCircle from '../../assets/icons-portail/icons-red-circle.png';
 
-function InfoPortail({ onClose }) {
-
-  
-
+function InfoPortail({ isOpen, onClose }) {
   return (
-    <div className="info-portail">
-      <div className="info-header">
-        <h2>Titre de l'Info</h2>
-        <button onClick={onClose}>Fermer</button>
-      </div>
-      <div className="info-content">
-        Contenu de l'info
+    <div className={`info-portail ${isOpen ? 'open' : ''}`}>
+      <div className="blue-background"></div>
+      <div className="pink-background">
+        <div className="info-box">
+          <img src={iconsRedCircle} alt="Fleche" className='img-info-portail'/>
+
+          <button className="close-button-info" onClick={onClose}><span className='circle-close-button-info'>X</span></button>
+          <h2 className='title-info-portail'>Titre </h2>
+          <p className='content-info-portail'>Contenu </p>
+        </div>
       </div>
     </div>
   );
