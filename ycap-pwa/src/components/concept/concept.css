@@ -16,7 +16,7 @@
 .sub-concept-2,
 .sub-concept-3 {
   border-top: 2px solid black;
-  line-height: 3em; 
+  line-height: 2em; 
   display: flex; 
   align-items: center;
 }

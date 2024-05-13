@@ -1,6 +1,7 @@
 import React from 'react';
 import './Home.css';
 import Concept from '../../components/concept/concept';
+import Carroussel from '../../components/carroussel/carroussel';
 
 function Home() {
   return (
@@ -12,11 +13,11 @@ function Home() {
           </div>
           <Concept/>
         </div>
-        <div className="dark-blue-section"></div>
+        <div className="dark-blue-section">
+          <Carroussel />
+        </div>
         <div className="pink-section"></div>
 
-
-        
         <footer className="footer">
           <button className="footer-button">Bouton 1</button>
           <button className="footer-button central">Bouton 2</button>

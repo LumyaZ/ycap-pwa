@@ -1,0 +1,11 @@
+.carroussel-position {
+    position: relative;
+    white-space: nowrap; 
+    margin-top: -4em;
+}
+
+.carroussel-scrolling {
+    overflow-x: auto;
+    display: flex;
+    height: 200px;
+}
