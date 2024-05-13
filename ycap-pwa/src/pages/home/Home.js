@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState }  from 'react';
 import './Home.css';
 import Concept from '../../components/concept/concept';
 import Carroussel from '../../components/carroussel/carroussel';
@@ -6,15 +6,24 @@ import indicatorchoix from '../../assets/indicatorChoix.png';
 import croix from '../../assets/croix.png';
 import headHome from '../../assets/headHome.png';
 import burger from '../../assets/burger.png';
-import InfoPortail from '../../components/info-portail/infoPortail.js';
+import VerticalMenu from '../../components/vertical-menu/verticalMenu';
+import arrow from '../../assets/arrow.png';
+
 
 function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleToggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
     <div>
       <div className="background">
         <div className="blue-section">
           <div className="header">
             <h2 className='header-title'>Hello there !</h2>
+            <img src={arrow} alt="Fleche" className='img-arrow-home'/>
           </div>
           <Concept/>
         </div>
@@ -36,14 +45,15 @@ function Home() {
         </div>
 
         <footer className="footer">
-          <button className="footer-button">
+          <button className="footer-button" onClick={handleToggleMenu}>
             <img src={burger} alt="" className="centered-image" />
           </button>
           <button className="footer-button central">ynov.com</button>
           <button className="footer-button">i</button>
         </footer>
+        <VerticalMenu isOpen={menuOpen} onClose={handleToggleMenu} />
+
       </div>
-      <InfoPortail title="Titre de l'Info" />
     </div>
   );
 }

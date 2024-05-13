@@ -2,10 +2,14 @@ import React from 'react';
 import './concept.css';
 
 function Concept() {
+
+  const chevron = '<<<';
+  const chevron2 = '>>>';
+
   return (
     <div className="concept-container">
       <div className="concept-header">
-        <h2  className='concept-header-title'>Concept</h2>
+        <h2  className='concept-header-title'>{chevron} Concept {chevron2}</h2>
       </div>
       <div className="concept-content">
         <div className="sub-concept-1">

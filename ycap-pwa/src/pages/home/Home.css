@@ -62,10 +62,13 @@
     border: 3px solid #000;
     border-top-right-radius: 5em;
     border-bottom-right-radius: 5em;
+    display: flex;
+    align-items: center; 
 }
   
 .header-title {
     margin: 0.5em 0em;
+    flex: 1;
 }
 
 .middle-zone {
@@ -122,4 +125,13 @@
 
 .second-button-footer{
     width: 50%;
+}
+
+
+.img-arrow-home{
+    transform: rotate(-90deg);
+    max-width: 10%; 
+    max-height:10%; 
+    margin: auto;
+    flex: 0;
 }
