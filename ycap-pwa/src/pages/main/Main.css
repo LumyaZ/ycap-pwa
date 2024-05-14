@@ -6,16 +6,125 @@
   
 .background-hot {
     background-color: var(--hot-background-color);
+    height: 90%;
 }
   
 .background-cold {
     background-color: var(--cold-background-color);
+    height: 90%;
+    
 }
 
-.background{
+.boussole-img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.background-main{
     height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+}
+
+.background-pink-section {
+    height: 10%;
+    background-color: #FF96B7; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.footer-main {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    background-color: #FF96B7;
+    color: #fff;
+    height: 2.5em;
+    border-top: 3px solid #000;
 }
   
+.footer-main-button {
+    height: 100%;
+    border: none;
+    background-color: transparent;
+    font-size: 1em;
+    text-align: center;
+    width: 25%;
+}
+  
+.central-main {
+    width: 50%;
+    border-left: 3px solid #000;
+    border-right: 3px solid #000;
+}
+
+.centered-image-middle-main{
+    max-width: 100%; 
+    max-height: 100%; 
+    margin: auto;
+    top: 80%;
+    position: absolute;
+    width: 55%;
+    left: 23%;
+}
+
+.centered-image-croix-main{
+    max-width: 40%; 
+    max-height:40%; 
+    margin: auto;
+}
+
+
+.text-overlay-main{
+    position: absolute;
+    font-size: 20px;
+    top: 83%;
+    text-align: center;
+    left: 30%;
+}
+
+.header-main {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.rectangle-left-main{
+    background-color: #FFCF00;
+    padding: 0.1em;
+    margin-left: 1em;
+    margin-top: 2em;
+    text-align: center;
+    border: 3px solid #000;
+    border-top-right-radius: 5em;
+    border-bottom-right-radius: 5em;
+    display: flex;
+    align-items: center; 
+    width: 60%;
+}
+
+.rectangle-right-main{
+    background-color: #342d0c;
+    margin-right: 1em;
+    padding: 0.1em;
+    margin-top: 2em;
+    text-align: center;
+    border: 3px solid #000;
+    border-top-right-radius: 5em;
+    border-bottom-right-radius: 5em;
+    display: flex;
+    align-items: center; 
+    width: 60%;
+}
+
+.header-title-main {
+        margin: 0.5em 0em;
+        flex: 1;
+
+}
+
+
+

@@ -8,7 +8,7 @@ function InfoPortail({ isOpen, onClose }) {
       <div className="blue-background"></div>
       <div className="pink-background">
         <div className="info-box">
-          <img src={iconsRedCircle} alt="Fleche" className='img-info-portail'/>
+          <img src={iconsRedCircle} alt="" className='img-info-portail'/>
 
           <button className="close-button-info" onClick={onClose}><span className='circle-close-button-info'>X</span></button>
           <h2 className='title-info-portail'>Titre </h2>
