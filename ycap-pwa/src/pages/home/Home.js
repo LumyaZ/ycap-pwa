@@ -140,19 +140,6 @@ function Home() {
   const [historyData, setHistoryData] = useState([]);
 
   const handleToggleMenu = () => {
-    /*const ville = 'NomDeVotreVille';
-    const poi = 'NomDeVotrePOI';
-
-    localStorage.setItem('ville', ville);
-    localStorage.setItem('poi', poi);
-
-    const storedVille = localStorage.getItem('ville');
-    const storedPOI = localStorage.getItem('poi');
-
-    if (storedVille && storedPOI) {
-      setHistoryData([{ ville: storedVille, poi: storedPOI }]);
-    }*/
-
     setMenuOpen(!menuOpen);
   };
 

@@ -104,7 +104,10 @@ function Main() {
     }, [id]);
 
     const handleShowAR = () => {
-        console.log('test')
+        const cityData = JSON.parse(localStorage.getItem('cityData')) || {};
+        console.log(dataPoi)
+        cityData[dataPoi.cityName] = dataPoi.name; 
+        localStorage.setItem('cityData', JSON.stringify(cityData));
         setShowAR(true);
     };
 
