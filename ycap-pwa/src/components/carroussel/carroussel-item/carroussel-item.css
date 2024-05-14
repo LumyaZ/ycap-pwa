@@ -19,14 +19,13 @@
     border: 3px solid #000;
     border-radius: 0.5em;
     margin: 0.5em;
+    overflow: auto;
+    word-wrap: break-word;
   }
   
   .small-square {
     position: absolute;
-    left:40%;
-    width: 50px;
-    height: 50px; 
-    background-color: #f48fb1; 
+    left:30%; 
     z-index: 2;
   }
   
@@ -57,7 +56,12 @@
 .item-title{
     margin-top: 2em;
     margin-bottom: 0.5em;
-    text-align: center;
+    margin-left: 1em;
+    margin-right: 1em;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    display: block;
 }
 
 .button-info{
@@ -66,4 +70,19 @@
     border: none;
     font-size: 1em;
     text-align: center;
+}
+.txt-item{
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+
+.item-title:hover::after {
+  content: attr(title); 
+  position: absolute;
+  top: 100%; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  white-space: normal; 
+  z-index: 1;
 }
