@@ -1,86 +1,135 @@
-import React, { useEffect, useState } from 'react';
-import './Home.css';
-import Concept from '../../components/concept/concept';
-import indicatorchoix from '../../assets/indicatorChoix.png';
-import croix from '../../assets/croix.png';
-import headHome from '../../assets/headHome.png';
-import burger from '../../assets/burger.png';
-import VerticalMenu from '../../components/vertical-menu/verticalMenu';
-import arrow from '../../assets/arrow.png';
-import CarouselItem from '../../components/carroussel/carroussel-item/carroussel-item.js';
-import InfoPortail from '../../components/info-portail/infoPortail.js';
+  import React, { useEffect, useState } from 'react';
+  import './Home.css';
+  import Concept from '../../components/concept/concept';
+  import indicatorchoix from '../../assets/indicatorChoix.png';
+  import croix from '../../assets/croix.png';
+  import headHome from '../../assets/headHome.png';
+  import burger from '../../assets/burger.png';
+  import VerticalMenu from '../../components/vertical-menu/verticalMenu';
+  import arrow from '../../assets/arrow.png';
+  import CarouselItem from '../../components/carroussel/carroussel-item/carroussel-item.js';
+  import InfoPortail from '../../components/info-portail/infoPortail.js';
 
-async function loadUserCities() {
-  try {
-    const response = await fetch(
-      `http://localhost:3000/cities/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        },
+  async function loadCities() {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/cities/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de la récupération des informations utilisateur.');
       }
-    );
-
-    if (!response.ok) {
-      throw new Error('Erreur lors de la récupération des informations utilisateur.');
+      
+      const data = await response.json();
+      console.log(data)
+      return data;
+    } catch (error) {
+      console.error(error);
     }
-    
-    const data = await response.json();
-    console.log(data)
-    return data;
-  } catch (error) {
-    console.error(error);
   }
-}
 
-async function loadUserPOISById() {
-  try {
-    const response = await fetch(
-      `http://localhost:3000/pois/bycity/1`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        },
+  async function loadPOISById(poisId) {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/pois/${poisId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de la récupération des informations utilisateur.');
       }
-    );
-
-    if (!response.ok) {
-      throw new Error('Erreur lors de la récupération des informations utilisateur.');
+      
+      const data = await response.json();
+      console.log(data)
+      return data;
+    } catch (error) {
+      console.error(error);
     }
-    
-    const data = await response.json();
-    console.log(data)
-    return data;
-  } catch (error) {
-    console.error(error);
   }
-}
 
-async function loadPOIById(selectedPoiId) {
-  try {
-    const response = await fetch(
-      `http://localhost:3000/pois/${selectedPoiId}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        },
+  async function loadPOISByCityId(cityId) {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/pois/bycity/${cityId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de la récupération des informations utilisateur.');
       }
-    );
-
-    if (!response.ok) {
-      throw new Error('Erreur lors de la récupération des informations utilisateur.');
+      
+      const data = await response.json();
+      console.log(data)
+      return data;
+    } catch (error) {
+      console.error(error);
     }
-    
-    const data = await response.json();
-    console.log(data)
-    return data;
-  } catch (error) {
-    console.error(error);
   }
-}
+
+  async function getUserLocation() {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            resolve([position.coords.latitude, position.coords.longitude]);
+          },
+          function(error) {
+            let errorMessage;
+            switch(error.code) {
+              case error.PERMISSION_DENIED:
+                errorMessage = "User denied the request for Geolocation.";
+                break;
+              case error.POSITION_UNAVAILABLE:
+                errorMessage = "Location information is unavailable.";
+                break;
+              case error.TIMEOUT:
+                errorMessage = "The request to get user location timed out.";
+                break;
+              case error.UNKNOWN_ERROR:
+                errorMessage = "An unknown error occurred.";
+                break;
+              default:
+                errorMessage = "An unknown error occurred.";
+            }
+            reject(new Error(errorMessage));
+          }
+        );
+      } else {
+        reject(new Error("Geolocation is not supported by this browser."));
+      }
+    });
+  }
+
+
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Rayon de la Terre en kilomètres
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distance en kilomètres
+    console.log(distance)
+    return distance;
+  }
+
 
 function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -108,56 +157,82 @@ function Home() {
     setMenuOpen(!menuOpen);
   };
 
-  const handleToggleInfoPortail = async (poiId) => {
-    setSelectedPoiId(poiId); 
-    setInfoPortailOpen(!infoPortailOpen); 
-
-    const data = await loadPOIById(poiId);
-    setPoiData(data);
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await loadUserPOISById();
-      await loadUserCities();
+    const handleToggleInfoPortail = async (poiId) => {
+      const data = await loadPOISById(poiId);
       console.log(data)
-      setPoisData(data);
+      setPoiData(data);
+      setSelectedPoiId(poiId); 
+      setInfoPortailOpen(!infoPortailOpen); 
     };
-    fetchData();
-  }, []);
 
-  return (
-    <div>
-      <div className="background">
-        <div className="blue-section">
-          <div className="header">
-            <h2 className='header-title'>Hello there !</h2>
-            <img src={arrow} alt="arrow" className='img-arrow-home'/>
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const loca = await getUserLocation();
+    
+          localStorage.setItem('userLatitude', loca[0]);
+          localStorage.setItem('userLongitude', loca[1]);
+    
+          const cities = await loadCities();
+    
+          // Filtrer les villes en fonction de la distance et de la valeur Reach
+          const filteredCities = cities.filter(city => {
+            const distance = calculateDistance(loca[0], loca[1], city.Latitude, city.Longitude);
+            return distance <= city.Reach;
+          });
+    
+          if (filteredCities.length === 0) {
+            alert("Aucune ville à proximité");
+          }
+    
+          if (filteredCities.length > 1) {
+            alert("Plusieurs villes");
+          }
+    
+          if (filteredCities.length === 1) {
+            const pois = await loadPOISByCityId(filteredCities[0].ID);
+            setPoisData(pois);
+          }
+        } catch (error) {
+          console.error("error:", error);
+          alert(error);
+        }
+      };
+      fetchData();
+    }, []);  
+
+    return (
+      <div>
+        <div className="background">
+          <div className="blue-section">
+            <div className="header">
+              <h2 className='header-title'>Hello there !</h2>
+              <img src={arrow} alt="arrow" className='img-arrow-home'/>
+            </div>
+            <Concept/>
           </div>
-          <Concept/>
-        </div>
-        <div className="dark-blue-section">
-          <div className='carroussel-position'>
-            <div className="carroussel-scrolling">
-              {poisData.map((poi) => (
-                <CarouselItem key={poi.ID} poi={poi} onInfoClick={handleToggleInfoPortail}/>
-              ))}
+          <div className="dark-blue-section">
+            <div className='carroussel-position'>
+              <div className="carroussel-scrolling">
+                {poisData && poisData.map((poi) => (
+                  <CarouselItem key={poi.ID} poi={poi} onInfoClick={handleToggleInfoPortail}/>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="pink-section">
-          <div className="left-zone">
-            <img src={croix} alt="" className="centered-image" />
+          <div className="pink-section">
+            <div className="left-zone">
+              <img src={croix} alt="" className="centered-image" />
+            </div>
+            <div className="middle-zone">
+              <img src={indicatorchoix} alt="" className="centered-image-middle" />
+              <img src={headHome} alt="" className='headHome-position'/>
+              <div className="text-overlay">Choisis un easter egg</div>
+            </div>
+            <div className="right-zone">
+              <img src={croix} alt="" className="centered-image" />
+            </div>
           </div>
-          <div className="middle-zone">
-            <img src={indicatorchoix} alt="" className="centered-image-middle" />
-            <img src={headHome} alt="" className='headHome-position'/>
-            <div className="text-overlay">Choisis un easter egg</div>
-          </div>
-          <div className="right-zone">
-            <img src={croix} alt="" className="centered-image" />
-          </div>
-        </div>
 
         <footer className="footer">
           <button className="footer-button" onClick={handleToggleMenu}>
@@ -180,4 +255,4 @@ function Home() {
   );
 }
 
-export default Home;
+  export default Home;

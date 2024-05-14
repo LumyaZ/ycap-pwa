@@ -4,7 +4,9 @@ import iconsRedCircle from '../../assets/icons-portail/icons-red-circle.png';
 
 
 
-function InfoPortail({ isOpen, onClose, selectedPoiId, poiData }) {
+function InfoPortail({ isOpen, onClose, poiData }) {
+  console.log(poiData)
+
 
   return (
     <div className={`info-portail ${isOpen ? 'open' : ''}`}>
