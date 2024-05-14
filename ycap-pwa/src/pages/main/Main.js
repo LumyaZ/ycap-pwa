@@ -150,7 +150,7 @@ function Main() {
             arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
             
             <a-camera gps-camera rotation-reader></a-camera>
-            <a-entity gltf-model="C:\Users\mathi\OneDrive\Bureau\Ynov\Cours\M1 Dev Web\Challenge 72h\test-arjs\assets\portal\portal_1.gltf" rotation="0 90 0" scale="4 4 4" gps-entity-place="longitude: 3.065570; latitude: 50.640530;" animation-mixer/>
+            <a-entity gltf-model=".\assets\portail\portal_1.gltf" rotation="0 90 0" scale="4 4 4" gps-entity-place="longitude: 3.065570; latitude: 50.640530;" animation-mixer/>
         </a-scene>
     </div>
 
@@ -202,7 +202,6 @@ function Main() {
                         <img src={chevron} alt="" style={{ transform: `rotate(${bearing}deg)` }}/>
                     </div>
 
-                    <button>
                 </div>
                 <div className='background-pink-section'>
                     <div className="left-zone">
