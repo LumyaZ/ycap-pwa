@@ -76,7 +76,7 @@ function Main() {
     const [bearing, setBearing] = useState(0);
     const [dataPoi, setDataPoi] = useState(null);  
     const [location, setLocation] = useState(null);  
-
+    const [showAR, setShowAR] = useState(false);
 
     const updateTemperature = (distance) => {
         setTemperature(distance < 500 ? 'hot' : 'cold');
@@ -103,7 +103,10 @@ function Main() {
         fetchData();
     }, [id]);
 
-
+    const handleShowAR = () => {
+        console.log('test')
+        setShowAR(true);
+    };
 
 
     function calculateDistanceAndBearing(lat1, lon1, lat2, lon2) {
@@ -201,6 +204,8 @@ function Main() {
                     <div className='boussole-img' >
                         <img src={chevron} alt="" style={{ transform: `rotate(${bearing}deg)` }}/>
                     </div>
+
+                    <button onClick={handleShowAR}>test</button>
                 </div>
                 <div className='background-pink-section'>
                     <div className="left-zone">
@@ -232,6 +237,27 @@ function Main() {
                     <button className="footer-main-button">i</button>
                 </footer>
             </div>
+            {showAR && (
+                <div>
+                    <div style={{margin: 0, overflow: 'hidden'}}>
+                        <script src='https://aframe.io/releases/0.9.2/aframe.min.js'></script>
+                        <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+                        <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+                        <script>
+                            THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
+                        </script>
+                    </div>
+        
+                    <a-scene
+                        vr-mode-ui="enabled: false"
+                        embedded
+                        arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+                        
+                        <a-camera gps-camera rotation-reader></a-camera>
+                        <a-entity gltf-model=".\assets\portail\portal_1.gltf" rotation="0 90 0" scale="4 4 4" gps-entity-place="longitude: 3.065570; latitude: 50.640530;" animation-mixer/>
+                    </a-scene>
+                </div>
+            )}
             <VerticalMenu isOpen={menuOpen} onClose={handleToggleMenu} />
         </div>
         
