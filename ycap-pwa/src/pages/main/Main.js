@@ -30,6 +30,43 @@ function Main() {
         updateTemperature();
     }, []);
 
+    useEffect(() => {
+        const {distance, bearing} = calculateDistanceAndBearing(50.634970, 3.058020, 50.635281, 3.058740);
+        console.log(distance);
+        console.log(1);
+        console.log(2);
+
+        console.log(bearing);
+    }, []);
+
+    function calculateDistanceAndBearing(lat1, lon1, lat2, lon2) {
+        const R = 6371e3; // Earth's radius in meters
+        const φ1 = lat1 * Math.PI/180; // Convert latitude from degrees to radians
+        const λ1 = lon1 * Math.PI/180; // Convert longitude from degrees to radians
+        const φ2 = lat2 * Math.PI/180; // Convert latitude from degrees to radians
+        const λ2 = lon2 * Math.PI/180; // Convert longitude from degrees to radians
+    
+        const Δφ = φ2 - φ1;
+        const Δλ = λ2 - λ1;
+    
+        const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                  Math.cos(φ1) * Math.cos(φ2) *
+                  Math.sin(Δλ/2) * Math.sin(Δλ/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    
+        const distance = R * c; // in meters
+    
+        const y = Math.sin(Δλ) * Math.cos(φ2);
+        const x = Math.cos(φ1)*Math.sin(φ2) -
+                  Math.sin(φ1)*Math.cos(φ2)*Math.cos(Δλ);
+        let bearing = Math.atan2(y, x) * 180/Math.PI;
+    
+        // Normalize to 0-360
+        bearing = (bearing + 360) % 360;
+    
+        return { distance, bearing };
+    }
+
     return (
         <div>
             <div className='background-main'>
