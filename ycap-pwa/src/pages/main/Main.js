@@ -205,7 +205,9 @@ function Main() {
                         <img src={chevron} alt="" style={{ transform: `rotate(${bearing}deg)` }}/>
                     </div>
 
-                    <button onClick={handleShowAR}>test</button>
+                    {distance < 30 && (
+                        <button onClick={handleShowAR} className="ar-button">Cherchez le portail !</button>
+                    )}
                 </div>
                 <div className='background-pink-section'>
                     <div className="left-zone">
