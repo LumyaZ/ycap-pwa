@@ -133,6 +133,27 @@ function Main() {
         return { distance, bearing };
     }
 
+    //code arjs
+    <div>
+        <div style={{margin: 0, overflow: 'hidden'}}>
+            <script src='https://aframe.io/releases/0.9.2/aframe.min.js'></script>
+            <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+            <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+            <script>
+                THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
+            </script>
+        </div>
+
+        <a-scene
+            vr-mode-ui="enabled: false"
+            embedded
+            arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+            
+            <a-camera gps-camera rotation-reader></a-camera>
+            <a-entity gltf-model=".\assets\portail\portal_1.gltf" rotation="0 90 0" scale="4 4 4" gps-entity-place="longitude: 3.065570; latitude: 50.640530;" animation-mixer/>
+        </a-scene>
+    </div>
+
     useEffect(() => {
         getUserLocation()
                 .then(location => {
