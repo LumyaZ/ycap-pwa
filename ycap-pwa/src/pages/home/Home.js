@@ -88,8 +88,23 @@ function Home() {
   const [poisData, setPoisData] = useState([]);
   const [selectedPoiId, setSelectedPoiId] = useState(null); 
   const [poiData, setPoiData] = useState(null);
-  
+  const [historyData, setHistoryData] = useState([]);
+
   const handleToggleMenu = () => {
+
+    /*const ville = 'NomDeVotreVille';
+    const poi = 'NomDeVotrePOI';
+
+    localStorage.setItem('ville', ville);
+    localStorage.setItem('poi', poi);
+
+    const storedVille = localStorage.getItem('ville');
+    const storedPOI = localStorage.getItem('poi');
+
+    if (storedVille && storedPOI) {
+      setHistoryData([{ ville: storedVille, poi: storedPOI }]);
+    }*/
+
     setMenuOpen(!menuOpen);
   };
 
@@ -151,7 +166,7 @@ function Home() {
           <button className="footer-button central">ynov.com</button>
           <button className="footer-button">i</button>
         </footer>
-        <VerticalMenu isOpen={menuOpen} onClose={handleToggleMenu} />
+        <VerticalMenu isOpen={menuOpen} onClose={handleToggleMenu} historyData={historyData}/>
         {infoPortailOpen && (
           <InfoPortail 
             isOpen={infoPortailOpen} 
