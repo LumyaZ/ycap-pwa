@@ -72,7 +72,7 @@ function Main() {
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [temperature, setTemperature] = useState('hot');
-    const [distance, setDistance] = useState(1000);
+    const [distance, setDistance] = useState('x');
     const [bearing, setBearing] = useState(0);
     const [dataPoi, setDataPoi] = useState(null);  
     const [location, setLocation] = useState(null);  
@@ -134,6 +134,15 @@ function Main() {
     }
 
     useEffect(() => {
+        getUserLocation()
+                .then(location => {
+                    setLocation(location);                    
+                    const {distance, bearing} = calculateDistanceAndBearing(location[0], location[1], dataPoi.Latitude, dataPoi.Longitude);
+                    setDistance(distance.toFixed(0));
+                    setBearing(bearing.toFixed(0));
+                    updateTemperature(distance);
+                })
+                .catch(error => console.error('Error getting location:', error));
         const interval = setInterval(() => {
             getUserLocation()
                 .then(location => {
