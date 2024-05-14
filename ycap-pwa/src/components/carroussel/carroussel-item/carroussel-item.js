@@ -19,7 +19,7 @@ function CarouselItem({ poi, onInfoClick }) {
           <span className='item-title' title={poi.Name}>{poi.Name}</span >
         </div>
         
-        <Link to="/main" className='button-choice'>choisir</Link>
+        <Link to={`/main/${poi.ID}`} className='button-choice'>choisir</Link>
       </div>
       <div className="small-square">
         <div className="bullet-main">

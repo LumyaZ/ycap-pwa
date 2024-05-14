@@ -1,6 +1,7 @@
 import React from 'react';
 import './verticalMenu.css';
 import arrow from '../../assets/arrow.png';
+import iconRed from '../../assets/icons-portail/icon-red.png';
 
 function VerticalMenu({ isOpen, onClose }) {
   return (
@@ -14,51 +15,75 @@ function VerticalMenu({ isOpen, onClose }) {
         
         <ul className="history-list">
             <li className="history-item">
-                <div className="bullet"></div> 
+                <div className="bullet">
+                    <img src={iconRed} alt="icon-red" className='icon-red-img'/>
+                </div> 
                 <p className="item-text">Texte de l'item 1</p> 
             </li>
             <li className="history-item">
-                <div className="bullet"></div> 
+                <div className="bullet">
+                    <img src={iconRed} alt="icon-red" className='icon-red-img'/>
+                </div> 
                 <p className="item-text">Texte de l'item 2</p>
             </li>
             <li className="history-item">
-                <div className="bullet"></div> 
+                <div className="bullet">
+                    <img src={iconRed} alt="icon-red" className='icon-red-img'/>
+                </div> 
                 <p className="item-text">Texte de l'item 1</p> 
             </li>
             <li className="history-item">
-                <div className="bullet"></div> 
+                <div className="bullet">
+                    <img src={iconRed} alt="icon-red" className='icon-red-img'/>
+                </div> 
                 <p className="item-text">Texte de l'item 2</p>
             </li>
             <li className="history-item">
-                <div className="bullet"></div> 
+                <div className="bullet">
+                    <img src={iconRed} alt="icon-red" className='icon-red-img'/>
+                </div> 
                 <p className="item-text">Texte de l'item 1</p> 
             </li>
             <li className="history-item">
-                <div className="bullet"></div> 
+                <div className="bullet">
+                    <img src={iconRed} alt="icon-red" className='icon-red-img'/>
+                </div> 
                 <p className="item-text">Texte de l'item 2</p>
             </li>
             <li className="history-item">
-                <div className="bullet"></div> 
+                <div className="bullet">
+                    <img src={iconRed} alt="icon-red" className='icon-red-img'/>
+                </div> 
                 <p className="item-text">Texte de l'item 1</p> 
             </li>
             <li className="history-item">
-                <div className="bullet"></div> 
+                <div className="bullet">
+                    <img src={iconRed} alt="icon-red" className='icon-red-img'/>
+                </div> 
                 <p className="item-text">Texte de l'item 2</p>
             </li>
             <li className="history-item">
-                <div className="bullet"></div> 
+                <div className="bullet">
+                    <img src={iconRed} alt="icon-red" className='icon-red-img'/>
+                </div>  
                 <p className="item-text">Texte de l'item 1</p> 
             </li>
             <li className="history-item">
-                <div className="bullet"></div> 
+                <div className="bullet">
+                    <img src={iconRed} alt="icon-red" className='icon-red-img'/>
+                </div>  
                 <p className="item-text">Texte de l'item 2</p>
             </li>
             <li className="history-item">
-                <div className="bullet"></div> 
+                <div className="bullet">
+                    <img src={iconRed} alt="icon-red" className='icon-red-img'/>
+                </div>  
                 <p className="item-text">Texte de l'item 1</p> 
             </li>
             <li className="history-item">
-                <div className="bullet"></div> 
+                <div className="bullet">
+                    <img src={iconRed} alt="icon-red" className='icon-red-img'/>
+                </div> 
                 <p className="item-text">Texte de l'item 2</p>
             </li>
         </ul>
