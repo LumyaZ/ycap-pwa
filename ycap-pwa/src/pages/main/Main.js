@@ -7,8 +7,35 @@ import croix from '../../assets/croix.png';
 import cloudHot from '../../assets/cloud-hot.png';
 import cloudCold from '../../assets/cloud-cold.png';
 import iconRed from '../../assets/icons-portail/icon-red.png';
+import { useParams } from 'react-router-dom';
+
+
+async function loadPOIById(selectedPoiId) {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/pois/${selectedPoiId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error('Erreur lors de la récupération des informations utilisateur.');
+      }
+      
+      const data = await response.json();
+      console.log(data)
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
 function Main() {
+    const { id } = useParams();
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [temperature, setTemperature] = useState('hot');
@@ -28,8 +55,17 @@ function Main() {
     };
 
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await loadPOIById(id);
+                console.log(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
         updateTemperature();
-    }, []);
+    }, [id]);
 
     return (
         <div>
