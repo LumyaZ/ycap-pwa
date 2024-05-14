@@ -202,7 +202,7 @@ function Main() {
                         <img src={chevron} alt="" style={{ transform: `rotate(${bearing}deg)` }}/>
                     </div>
 
-                    <button>
+                    
                 </div>
                 <div className='background-pink-section'>
                     <div className="left-zone">
