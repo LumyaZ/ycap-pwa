@@ -140,7 +140,6 @@ function Home() {
   const [historyData, setHistoryData] = useState([]);
 
   const handleToggleMenu = () => {
-
     /*const ville = 'NomDeVotreVille';
     const poi = 'NomDeVotrePOI';
 
@@ -192,7 +191,18 @@ function Home() {
           if (filteredCities.length === 1) {
             const pois = await loadPOISByCityId(filteredCities[0].ID);
             setPoisData(pois);
+
+            // Partie de test pour le localStorage
+            const city = filteredCities[0];
+            const cityData = {
+              cityName: city.CityName,
+              pois: pois.map(poi => poi.Name)
+            };
+            localStorage.setItem('cityData', JSON.stringify(cityData));
+
           }
+          
+
         } catch (error) {
           console.error("error:", error);
           alert(error);

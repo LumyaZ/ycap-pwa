@@ -3,7 +3,11 @@ import './verticalMenu.css';
 import arrow from '../../assets/arrow.png';
 import iconRed from '../../assets/icons-portail/icon-red.png';
 
-function VerticalMenu({ isOpen, onClose ,historyData }) {
+function VerticalMenu({ isOpen, onClose }) {
+
+  const cityData = JSON.parse(localStorage.getItem('cityData'));
+
+
   return (
     <div className={`vertical-menu ${isOpen ? 'open' : ''}`}>
         <div className='header-menu'>
@@ -14,9 +18,15 @@ function VerticalMenu({ isOpen, onClose ,historyData }) {
         </div>
         
         <ul className="history-list">
-            
-            
-        </ul>
+        {cityData && cityData.pois.map((poiName, index) => (
+          <li key={index} className="history-item">
+            <div className="bullet-main">
+              <img src={iconRed} alt="icon-red" className='icon-red-img'/>
+            </div> 
+            <span style={{ margin: '10px' }}>{cityData.cityName} - {poiName}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
