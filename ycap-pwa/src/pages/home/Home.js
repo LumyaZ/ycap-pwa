@@ -1,4 +1,4 @@
-import React, { useState }  from 'react';
+import React, { useEffect, useState } from 'react';
 import './Home.css';
 import Concept from '../../components/concept/concept';
 import indicatorchoix from '../../assets/indicatorChoix.png';
@@ -10,17 +10,106 @@ import arrow from '../../assets/arrow.png';
 import CarouselItem from '../../components/carroussel/carroussel-item/carroussel-item.js';
 import InfoPortail from '../../components/info-portail/infoPortail.js';
 
+async function loadUserCities() {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/cities/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Erreur lors de la récupération des informations utilisateur.');
+    }
+    
+    const data = await response.json();
+    console.log(data)
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function loadUserPOISById() {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/pois/bycity/1`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Erreur lors de la récupération des informations utilisateur.');
+    }
+    
+    const data = await response.json();
+    console.log(data)
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function loadPOIById(selectedPoiId) {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/pois/${selectedPoiId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Erreur lors de la récupération des informations utilisateur.');
+    }
+    
+    const data = await response.json();
+    console.log(data)
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [infoPortailOpen, setInfoPortailOpen] = useState(false);
-
+  const [poisData, setPoisData] = useState([]);
+  const [selectedPoiId, setSelectedPoiId] = useState(null); 
+  const [poiData, setPoiData] = useState(null);
+  
   const handleToggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
-  const handleToggleInfoPortail = () => {
-    setInfoPortailOpen(!infoPortailOpen);
+  const handleToggleInfoPortail = async (poiId) => {
+    setSelectedPoiId(poiId); 
+    setInfoPortailOpen(!infoPortailOpen); 
+
+    const data = await loadPOIById(poiId);
+    setPoiData(data);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await loadUserPOISById();
+      await loadUserCities();
+      console.log(data)
+      setPoisData(data);
+    };
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -35,12 +124,9 @@ function Home() {
         <div className="dark-blue-section">
           <div className='carroussel-position'>
             <div className="carroussel-scrolling">
-              <CarouselItem onInfoClick={handleToggleInfoPortail}/>
-              <CarouselItem onInfoClick={handleToggleInfoPortail}/>
-              <CarouselItem onInfoClick={handleToggleInfoPortail}/>
-              <CarouselItem onInfoClick={handleToggleInfoPortail}/>
-              <CarouselItem onInfoClick={handleToggleInfoPortail}/>
-              <CarouselItem onInfoClick={handleToggleInfoPortail}/>
+              {poisData.map((poi) => (
+                <CarouselItem key={poi.ID} poi={poi} onInfoClick={handleToggleInfoPortail}/>
+              ))}
             </div>
           </div>
         </div>
@@ -66,8 +152,14 @@ function Home() {
           <button className="footer-button">i</button>
         </footer>
         <VerticalMenu isOpen={menuOpen} onClose={handleToggleMenu} />
-        <InfoPortail isOpen={infoPortailOpen} onClose={handleToggleInfoPortail} />
-
+        {infoPortailOpen && (
+          <InfoPortail 
+            isOpen={infoPortailOpen} 
+            onClose={() => setInfoPortailOpen(false)} 
+            selectedPoiId={selectedPoiId}  
+            poiData={poiData}
+          />
+        )}
       </div>
     </div>
   );
