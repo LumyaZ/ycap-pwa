@@ -6,6 +6,7 @@ import VerticalMenu from '../../components/vertical-menu/verticalMenu';
 import croix from '../../assets/croix.png';
 import cloudHot from '../../assets/cloud-hot.png';
 import cloudCold from '../../assets/cloud-cold.png';
+import iconRed from '../../assets/icons-portail/icon-red.png';
 
 function Main() {
 
@@ -34,27 +35,31 @@ function Main() {
         <div>
             <div className='background-main'>
                 <div className={`background-${temperatureClass}`}>
-
-                <div className="header-main">
-                    <div className="rectangle-left-main">
-                        <h2 className='header-title-main'>Hello there !</h2>
+                    <div className="header-main">
+                        <div className="rectangle-left-main">
+                            <div className="bullet-main">
+                                <img src={iconRed} alt="icon-red" className='icon-red-img'/>
+                            </div> 
+                            <h4 className='header-title-main'>Red point</h4>
+                        </div>
+                        <div className={`rectangle-right-main header-btn-${temperatureClass}`}>
+                            {temperature === 'hot' ? (
+                                <h4 className='header-title-main'>Chaud !</h4>
+                            ) : (
+                                <h4 className='header-title-main'>Froid !</h4>
+                            )}
+                        </div>
                     </div>
-                    <div className="rectangle-right-main">
-                        <h2 className='header-title-main'>Hello there !</h2>
-                    </div>
-                    
-                </div>
-                                    
+                                        
                     <div className='boussole-img'>
                         <img src={chevron} alt=""/>
                     </div>
-                    
                 </div>
                 <div className='background-pink-section'>
-                <div className="left-zone">
-                    <img src={croix} alt="" className="centered-image-croix-main" />
-                </div>
-                <div className="middle-zone">
+                    <div className="left-zone">
+                        <img src={croix} alt="" className="centered-image-croix-main" />
+                    </div>
+                    <div className="middle-zone">
                         {temperature === 'hot' ? (
                             <div>
                                 <img src={cloudHot} alt="" className="centered-image-middle-main" />
@@ -67,13 +72,10 @@ function Main() {
                                 <div className="text-overlay-main">{`Distance 2 : ${distance} m`}</div>
                             </div>
                         )}
-
-                        
-                    
-                </div>
-                <div className="right-zone">
-                    <img src={croix} alt="" className="centered-image-croix-main" />
-                </div>
+                    </div>
+                    <div className="right-zone">
+                        <img src={croix} alt="" className="centered-image-croix-main" />
+                    </div>
                 </div>
                 <footer className="footer-main">
                     <button className="footer-main-button" onClick={handleToggleMenu}>
