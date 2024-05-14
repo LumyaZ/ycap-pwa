@@ -9,6 +9,39 @@ import cloudCold from '../../assets/cloud-cold.png';
 import iconRed from '../../assets/icons-portail/icon-red.png';
 import { useParams } from 'react-router-dom';
 
+async function getUserLocation() {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            resolve([position.coords.latitude, position.coords.longitude]);
+          },
+          function(error) {
+            let errorMessage;
+            switch(error.code) {
+              case error.PERMISSION_DENIED:
+                errorMessage = "User denied the request for Geolocation.";
+                break;
+              case error.POSITION_UNAVAILABLE:
+                errorMessage = "Location information is unavailable.";
+                break;
+              case error.TIMEOUT:
+                errorMessage = "The request to get user location timed out.";
+                break;
+              case error.UNKNOWN_ERROR:
+                errorMessage = "An unknown error occurred.";
+                break;
+              default:
+                errorMessage = "An unknown error occurred.";
+            }
+            reject(new Error(errorMessage));
+          }
+        );
+      } else {
+        reject(new Error("Geolocation is not supported by this browser."));
+      }
+    });
+  }
 
 async function loadPOIById(selectedPoiId) {
     try {
@@ -40,7 +73,10 @@ function Main() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [temperature, setTemperature] = useState('hot');
     const [distance, setDistance] = useState(1000);
-    const [bearing, setBearing] = useState(0); 
+    const [bearing, setBearing] = useState(0);
+    const [dataPoi, setDataPoi] = useState(null);  
+    const [location, setLocation] = useState(null);  
+
 
     const updateTemperature = (distance) => {
         setTemperature(distance < 500 ? 'hot' : 'cold');
@@ -58,18 +94,16 @@ function Main() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await loadPOIById(id);
-                console.log(data);
+                const dataPoi = await loadPOIById(id);
+                setDataPoi(dataPoi)
             } catch (error) {
                 console.error(error);
             }
         };
         fetchData();
-        const {distance, bearing} = calculateDistanceAndBearing(50.634970, 3.058020, 50.635281, 3.058740);
-        setDistance(distance.toFixed(0));
-        setBearing(bearing.toFixed(0));
-        updateTemperature(distance);
     }, [id]);
+
+
 
 
     function calculateDistanceAndBearing(lat1, lon1, lat2, lon2) {
@@ -95,9 +129,24 @@ function Main() {
         let bearing = Math.atan2(y, x) * 180/Math.PI;
     
         bearing = (bearing + 360) % 360;
-    
+        
         return { distance, bearing };
     }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            getUserLocation()
+                .then(location => {
+                    setLocation(location);                    
+                    const {distance, bearing} = calculateDistanceAndBearing(location[0], location[1], dataPoi.Latitude, dataPoi.Longitude);
+                    setDistance(distance.toFixed(0));
+                    setBearing(bearing.toFixed(0));
+                    updateTemperature(distance);
+                })
+                .catch(error => console.error('Error getting location:', error));
+        }, 3000);
+        return () => clearInterval(interval);
+    }, [location, dataPoi, distance, bearing]);
 
     return (
         <div>

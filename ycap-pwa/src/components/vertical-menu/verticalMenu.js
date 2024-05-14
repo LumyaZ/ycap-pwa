@@ -14,14 +14,8 @@ function VerticalMenu({ isOpen, onClose ,historyData }) {
         </div>
         
         <ul className="history-list">
-            {historyData.map((item, index) => (
-            <li key={index} className="history-item">
-                <div className="bullet">
-                <img src={iconRed} alt="icon-red" className='icon-red-img'/>
-                </div> 
-                <p className="item-text">{item}</p> 
-            </li>
-            ))}
+            
+            
         </ul>
     </div>
   );

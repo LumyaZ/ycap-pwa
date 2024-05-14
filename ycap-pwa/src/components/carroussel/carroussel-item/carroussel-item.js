@@ -9,7 +9,8 @@ function CarouselItem({ poi, onInfoClick }) {
   const handleInfoClick = () => {
     onInfoClick(poi.ID); 
   };
-
+  console.log('test')
+  console.log(poi.ID)
 
 
   return (
