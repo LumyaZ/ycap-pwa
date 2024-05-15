@@ -111,12 +111,18 @@ function Main() {
     }, [id]);
 
     const handleShowAR = () => {
-        const cityData = JSON.parse(localStorage.getItem('cityData')) || {};
-        console.log(dataPoi)
-        cityData[dataPoi.cityName] = dataPoi.name; 
-        localStorage.setItem('cityData', JSON.stringify(cityData));
-        setShowAR(true);
-    };
+      const cityDataStr = localStorage.getItem('cityData');
+      if (cityDataStr) {
+          const cityData = JSON.parse(cityDataStr);
+          // Check if the name already exists in pois array
+          if (!cityData.pois.includes(dataPoi.Name)) {
+              // If it doesn't exist, add it to the array
+              cityData.pois.push(dataPoi.Name);
+              localStorage.setItem('cityData', JSON.stringify(cityData));
+          }
+      }
+      setShowAR(true);
+  };
 
 
     function calculateDistance(lat1, lon1, lat2, lon2) {
