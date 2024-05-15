@@ -139,9 +139,8 @@ function Home() {
   const [selectedPoiId, setSelectedPoiId] = useState(null); 
   const [poiData, setPoiData] = useState(null);
   const [historyData, setHistoryData] = useState([]);
-  const [errorPermission, setErrorPermission] = useState(false);
-  const [errorPosition, setErrorPosition] = useState(false);
-  const [errorUnknow, setErrorUnknow] = useState(false);
+  const [error, setError] = useState(false);
+  const [isConditionCard, setIsConditionCard] = useState(false);
 
 
   const handleToggleMenu = () => {
@@ -150,7 +149,6 @@ function Home() {
 
     const handleToggleInfoPortail = async (poiId) => {
       const data = await loadPOISById(poiId);
-      console.log(data)
       setPoiData(data);
       setSelectedPoiId(poiId); 
       setInfoPortailOpen(!infoPortailOpen); 
@@ -166,14 +164,14 @@ function Home() {
     
           const cities = await loadCities();
     
-          // Filtrer les villes en fonction de la distance et de la valeur Reach
           const filteredCities = cities.filter(city => {
             const distance = calculateDistance(loca[0], loca[1], city.Latitude, city.Longitude);
             return distance <= city.Reach;
           });
     
           if (filteredCities.length === 0) {
-            alert("Aucune ville à proximité");
+            setError(true)
+            setIsConditionCard(true)
           }
     
           if (filteredCities.length > 1) {
@@ -184,7 +182,6 @@ function Home() {
             const pois = await loadPOISByCityId(filteredCities[0].ID);
             setPoisData(pois);
 
-            // Partie de test pour le localStorage
             const city = filteredCities[0];
             const cityData = {
               cityName: city.CityName,
@@ -196,16 +193,15 @@ function Home() {
           
 
         }catch (error) {
-          console.log(error)
           if (error === 1) { 
-            console.log(1)
-            setErrorPermission(true);
+            setError(true);
+            setIsConditionCard(false)
           }if(error ===2){
-            setErrorPosition(true)
+            setError(true)
+            setIsConditionCard(true)
           }
-          if(error === 3)
-          {
-            setErrorUnknow(true)
+          if(error === 3){
+            setError(true)
           }
         }
       };
@@ -215,7 +211,7 @@ function Home() {
     return (
       <div>
         <div className="background">
-          {!errorPermission && (
+          {!error &&  (
           <div className="blue-section">
             <div className="header">
               <h2 className='header-title'>Hello there !</h2>
@@ -225,7 +221,7 @@ function Home() {
           </div>
           )}
           
-          {!errorPermission && (
+          {!error  && (
           <div className="dark-blue-section">
             <div className='carroussel-position'>
               <div className="carroussel-scrolling">
@@ -236,7 +232,7 @@ function Home() {
             </div>
           </div>
           )}
-          {!errorPermission && (
+          {!error && (
           <div className="pink-section">
             <div className="left-zone">
               <img src={croix} alt="" className="centered-image" />
@@ -251,7 +247,7 @@ function Home() {
             </div>
           </div>
           )}
-          {errorPermission && (
+          {error && (
             <div className="blue-section-with-error">
               <div className="header">
                 <h2 className='header-title'>Hello there !</h2>
@@ -260,10 +256,9 @@ function Home() {
               <Concept/>
             </div>
           )}
-
-          {errorPermission && (
+          {error && (
             <div className='card-background'>
-              <CardEasteregg/>
+              <CardEasteregg isConditionCard={isConditionCard}/>
             </div>
           )}
 
