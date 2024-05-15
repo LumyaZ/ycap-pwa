@@ -11,8 +11,8 @@ import { useParams } from 'react-router-dom';
 
 async function getUserLocation() {
   const options = {
-    enableHighAccuracy: true,
-    timeout: 1000,
+    enableHighAccuracy: false,
+    timeout: 5000,
     maximumAge: 0,
   };
     return new Promise((resolve, reject) => {
@@ -52,7 +52,7 @@ async function getUserLocation() {
 async function loadPOIById(selectedPoiId) {
     try {
       const response = await fetch(
-        `https://chasseauxportails-ws-dev.bcd.tech/pois/${selectedPoiId}`,
+        `${process.env.REACT_APP_API_URL}/pois/${selectedPoiId}`,
         {
           method: "GET",
           headers: {
@@ -96,6 +96,13 @@ function Main() {
     const handleToggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
+
+    useEffect(() => {
+        window.addEventListener('deviceorientation', handleOrientationChange);
+        return () => {
+            window.removeEventListener('deviceorientation', handleOrientationChange);
+        };
+    }, []);
 
     useEffect(() => {
 
@@ -159,11 +166,11 @@ function Main() {
         const interval = setInterval(() => {
             getUserLocation()
                 .then(location => {
-                    setLocation(location);
-                    console.log(dataPoi)               
+                    setLocation(location);                    
                     const {distance } = calculateDistance(location[0], location[1], dataPoi.Latitude, dataPoi.Longitude);
                     setDistance(distance.toFixed(0));
                     updateTemperature(distance);
+                    console.log(location[0], location[1])
                 })
                 .catch(error => console.error('Error getting location:', error));
         }, 1000);

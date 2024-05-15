@@ -1,0 +1,23 @@
+name: deploy-prod
+
+on:
+  push:
+    tags:
+      - '*'
+
+concurrency: deploy-prod
+
+jobs:
+    deploy:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+        - name: Setup SSH Key
+          uses: webfactory/ssh-agent@v0.5.3
+          with:
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        - name: Deploy to prod
+          run: make deploy
+          env:
+            ENV: prod

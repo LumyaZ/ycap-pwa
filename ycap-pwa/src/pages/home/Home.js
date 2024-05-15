@@ -14,7 +14,7 @@ import CardEasteregg from '../../components/cardEasterEgg/cardEasterEgg.js';
   async function loadCities() {
     try {
       const response = await fetch(
-        `https://chasseauxportails-ws-dev.bcd.tech/cities/`,
+        `${process.env.REACT_APP_API_URL}/cities/`,
         {
           method: "GET",
           headers: {
@@ -38,7 +38,7 @@ import CardEasteregg from '../../components/cardEasterEgg/cardEasterEgg.js';
   async function loadPOISById(poisId) {
     try {
       const response = await fetch(
-        `https://chasseauxportails-ws-dev.bcd.tech/pois/${poisId}`,
+        `${process.env.REACT_APP_API_URL}/pois/${poisId}`,
         {
           method: "GET",
           headers: {
@@ -62,7 +62,7 @@ import CardEasteregg from '../../components/cardEasterEgg/cardEasterEgg.js';
   async function loadPOISByCityId(cityId) {
     try {
       const response = await fetch(
-        `https://chasseauxportails-ws-dev.bcd.tech/pois/bycity/${cityId}`,
+        `${process.env.REACT_APP_API_URL}/pois/bycity/${cityId}`,
         {
           method: "GET",
           headers: {
@@ -306,7 +306,7 @@ function Home() {
 
         <footer className="footer">
           <button className="footer-button" onClick={handleToggleMenu}>
-          <img src={burger} alt="" className="centered-image-footer" />
+            <img src={burger} alt="" className="centered-image" />
           </button>
           <button className="footer-button central">ynov.com</button>
           <button className="footer-button">i</button>
