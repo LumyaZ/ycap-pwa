@@ -2,7 +2,7 @@ import React from "react";
 import headHome from "../../assets/headHome.png";
 import "./cardEasterEgg.css";
 
-function CardEasteregg({ onInfoClick, isConditionCard }) {
+function CardEasteregg({ onInfoClick, isConditionCard, requestLocationPermission }) {
   const data = [
     {
       condition: true,
@@ -20,7 +20,7 @@ function CardEasteregg({ onInfoClick, isConditionCard }) {
       buttons: [
         {
           label: 'Autoriser',
-          onClick: () => {}, 
+          onClick: requestLocationPermission,
         },
         {
           label: 'Ne pas autoriser',

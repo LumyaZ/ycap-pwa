@@ -143,9 +143,9 @@ function Home() {
   const [isConditionCard, setIsConditionCard] = useState(false);
 
 
-  const handleToggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+    const handleToggleMenu = () => {
+      setMenuOpen(!menuOpen);
+    };
 
     const handleToggleInfoPortail = async (poiId) => {
       const data = await loadPOISById(poiId);
@@ -181,7 +181,7 @@ function Home() {
           if (filteredCities.length === 1) {
             const pois = await loadPOISByCityId(filteredCities[0].ID);
             setPoisData(pois);
-
+            setError(false)
             const city = filteredCities[0];
             const cityData = {
               cityName: city.CityName,
@@ -206,7 +206,48 @@ function Home() {
         }
       };
       fetchData();
-    }, []);  
+    }, []); 
+    
+    const requestLocationPermission = async () => {
+      try {
+        const loca = await getUserLocation();
+    
+          localStorage.setItem('userLatitude', loca[0]);
+          localStorage.setItem('userLongitude', loca[1]);
+    
+          const cities = await loadCities();
+    
+          const filteredCities = cities.filter(city => {
+            const distance = calculateDistance(loca[0], loca[1], city.Latitude, city.Longitude);
+            return distance <= city.Reach;
+          });
+    
+          if (filteredCities.length === 0) {
+            setError(true)
+            setIsConditionCard(true)
+          }
+    
+          if (filteredCities.length > 1) {
+            alert("Plusieurs villes");
+          }
+    
+          if (filteredCities.length === 1) {
+            const pois = await loadPOISByCityId(filteredCities[0].ID);
+            setPoisData(pois);
+            setError(false)
+            const city = filteredCities[0];
+            const cityData = {
+              cityName: city.CityName,
+              pois: pois.map(poi => poi.Name)
+            };
+            localStorage.setItem('cityData', JSON.stringify(cityData));
+
+          }
+        setError(false);
+      } catch (error) {
+        setError(error);
+      }
+    };
 
     return (
       <div>
@@ -258,7 +299,7 @@ function Home() {
           )}
           {error && (
             <div className='card-background'>
-              <CardEasteregg isConditionCard={isConditionCard}/>
+              <CardEasteregg isConditionCard={isConditionCard} requestLocationPermission={requestLocationPermission}/>
             </div>
           )}
 
