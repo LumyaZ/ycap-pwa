@@ -1,14 +1,10 @@
 .card {
-    margin: 2rem;
+    margin: 1rem;
     max-width: 400px;
     background-color: #F7E4D7;
     border: 2px solid black;
     align-items: center;
     padding: 1rem;
-  }
-  
-  .content {
-    padding: 1.5rem;
   }
   
   .image {
@@ -23,7 +19,6 @@
     color: #000;
     font-size: 1.4rem;
     line-height: 2rem;
-    padding: 2rem;
     text-align: center;
   }
   

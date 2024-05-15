@@ -9,6 +9,7 @@
   import arrow from '../../assets/arrow.png';
   import CarouselItem from '../../components/carroussel/carroussel-item/carroussel-item.js';
   import InfoPortail from '../../components/info-portail/infoPortail.js';
+import CardEasteregg from '../../components/cardEasterEgg/cardEasterEgg.js';
 
   async function loadCities() {
     try {
@@ -107,7 +108,7 @@
               default:
                 errorMessage = "An unknown error occurred.";
             }
-            reject(new Error(errorMessage));
+            reject(error.code);
           }
         );
       } else {
@@ -118,14 +119,14 @@
 
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Rayon de la Terre en kilomètres
+    const R = 6371;
     const dLat = (lat2 - lat1) * (Math.PI / 180);
     const dLon = (lon2 - lon1) * (Math.PI / 180);
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // Distance en kilomètres
+    const distance = R * c; 
     console.log(distance)
     return distance;
   }
@@ -138,6 +139,8 @@ function Home() {
   const [selectedPoiId, setSelectedPoiId] = useState(null); 
   const [poiData, setPoiData] = useState(null);
   const [historyData, setHistoryData] = useState([]);
+  const [errorPermission, setErrorPermission] = useState(false);
+
 
   const handleToggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -190,9 +193,14 @@ function Home() {
           }
           
 
-        } catch (error) {
-          console.error("error:", error);
-          alert(error);
+        }catch (error) {
+          console.log(error)
+          if (error === 1) { 
+            console.log(1)
+            setErrorPermission(true);
+          }if(error ===2){
+
+          }
         }
       };
       fetchData();
@@ -201,6 +209,7 @@ function Home() {
     return (
       <div>
         <div className="background">
+          {!errorPermission && (
           <div className="blue-section">
             <div className="header">
               <h2 className='header-title'>Hello there !</h2>
@@ -208,6 +217,9 @@ function Home() {
             </div>
             <Concept/>
           </div>
+          )}
+          
+          {!errorPermission && (
           <div className="dark-blue-section">
             <div className='carroussel-position'>
               <div className="carroussel-scrolling">
@@ -217,6 +229,8 @@ function Home() {
               </div>
             </div>
           </div>
+          )}
+          {!errorPermission && (
           <div className="pink-section">
             <div className="left-zone">
               <img src={croix} alt="" className="centered-image" />
@@ -230,6 +244,23 @@ function Home() {
               <img src={croix} alt="" className="centered-image" />
             </div>
           </div>
+          )}
+          {errorPermission && (
+            <div className="blue-section-with-error">
+              <div className="header">
+                <h2 className='header-title'>Hello there !</h2>
+                <img src={arrow} alt="arrow" className='img-arrow-home'/>
+              </div>
+              <Concept/>
+            </div>
+          )}
+
+          {errorPermission && (
+            <div className='card-background'>
+              <CardEasteregg/>
+            </div>
+          )}
+
 
         <footer className="footer">
           <button className="footer-button" onClick={handleToggleMenu}>
