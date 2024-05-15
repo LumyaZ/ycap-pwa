@@ -1,18 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import headHome from "../../assets/headHome.png";
 import "./cardEasterEgg.css";
 
-function CardEasteregg({ onInfoClick }) {
-  const [isLocationAllowed, setIsLocationAllowed] = useState(false);
-
-  const handleAllowLocation = () => {
-    setIsLocationAllowed(true);
-  };
-
-  const handleDenyLocation = () => {
-    setIsLocationAllowed(false);
-  };
-
+function CardEasteregg({ onInfoClick, isConditionCard, requestLocationPermission }) {
   const data = [
     {
       condition: true,
@@ -30,17 +20,17 @@ function CardEasteregg({ onInfoClick }) {
       buttons: [
         {
           label: 'Autoriser',
-          onClick: handleAllowLocation
+          onClick: requestLocationPermission,
         },
         {
           label: 'Ne pas autoriser',
-          onClick: handleDenyLocation
+          onClick: () => {}, 
         }
       ]
     }
   ];
 
-  const currentData = data.find(item => item.condition === isLocationAllowed);
+  const currentData = data.find(item => item.condition === isConditionCard);
 
   return (
     <div className="card">
