@@ -140,6 +140,8 @@ function Home() {
   const [poiData, setPoiData] = useState(null);
   const [historyData, setHistoryData] = useState([]);
   const [errorPermission, setErrorPermission] = useState(false);
+  const [errorPosition, setErrorPosition] = useState(false);
+  const [errorUnknow, setErrorUnknow] = useState(false);
 
 
   const handleToggleMenu = () => {
@@ -199,7 +201,11 @@ function Home() {
             console.log(1)
             setErrorPermission(true);
           }if(error ===2){
-
+            setErrorPosition(true)
+          }
+          if(error === 3)
+          {
+            setErrorUnknow(true)
           }
         }
       };
