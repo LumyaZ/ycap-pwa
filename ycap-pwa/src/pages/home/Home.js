@@ -284,7 +284,6 @@ function Home() {
             <div className="middle-zone">
               <img src={indicatorchoix} alt="" className="centered-image-middle" />
               <img src={headHome} alt="" className='headHome-position'/>
-              <div className="text-overlay">Choisis un easter egg</div>
             </div>
             <div className="right-zone">
               <img src={croix} alt="" className="centered-image" />
@@ -309,7 +308,7 @@ function Home() {
 
         <footer className="footer">
           <button className="footer-button" onClick={handleToggleMenu}>
-            <img src={burger} alt="" className="centered-image" />
+            <img src={burger} alt="" className="centered-image-footer" />
           </button>
           <button className="footer-button central">ynov.com</button>
           <button className="footer-button">i</button>
