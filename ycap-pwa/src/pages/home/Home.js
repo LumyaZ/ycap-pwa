@@ -14,7 +14,7 @@ import CardEasteregg from '../../components/cardEasterEgg/cardEasterEgg.js';
   async function loadCities() {
     try {
       const response = await fetch(
-        `http://localhost:3000/cities/`,
+        `https://chasseauxportails-ws-dev.bcd.tech/cities/`,
         {
           method: "GET",
           headers: {
@@ -38,7 +38,7 @@ import CardEasteregg from '../../components/cardEasterEgg/cardEasterEgg.js';
   async function loadPOISById(poisId) {
     try {
       const response = await fetch(
-        `http://localhost:3000/pois/${poisId}`,
+        `https://chasseauxportails-ws-dev.bcd.tech/pois/${poisId}`,
         {
           method: "GET",
           headers: {
@@ -62,7 +62,7 @@ import CardEasteregg from '../../components/cardEasterEgg/cardEasterEgg.js';
   async function loadPOISByCityId(cityId) {
     try {
       const response = await fetch(
-        `http://localhost:3000/pois/bycity/${cityId}`,
+        `https://chasseauxportails-ws-dev.bcd.tech/pois/bycity/${cityId}`,
         {
           method: "GET",
           headers: {
