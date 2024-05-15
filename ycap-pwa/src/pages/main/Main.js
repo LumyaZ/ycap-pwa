@@ -52,7 +52,7 @@ async function getUserLocation() {
 async function loadPOIById(selectedPoiId) {
     try {
       const response = await fetch(
-        `http://localhost:3000/pois/${selectedPoiId}`,
+        `${process.env.REACT_APP_API_URL}/pois/${selectedPoiId}`,
         {
           method: "GET",
           headers: {
