@@ -306,7 +306,7 @@ function Home() {
 
         <footer className="footer">
           <button className="footer-button" onClick={handleToggleMenu}>
-            <img src={burger} alt="" className="centered-image" />
+          <img src={burger} alt="" className="centered-image-footer" />
           </button>
           <button className="footer-button central">ynov.com</button>
           <button className="footer-button">i</button>

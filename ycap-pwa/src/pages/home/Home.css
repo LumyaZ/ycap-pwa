@@ -20,7 +20,7 @@
 }
 
 .pink-section {
-    height: 20%;
+    height: 25%;
     background-color: #FF96B7; 
     display: flex;
     justify-content: center; 
@@ -28,6 +28,11 @@
 }
   
 .footer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -97,24 +102,36 @@
     max-width: 100%; 
     max-height: 100%; 
     margin: auto;
+    position: relative;
+    top: -15px;
 }
-.centered-image {
+
+.centered-image-footer {
     max-width: 60%; 
     max-height:60%; 
     margin: auto;
 }
 
+.centered-image {
+    max-width: 60%; 
+    max-height:60%; 
+    margin: auto;
+    position: relative;
+    top: -15px;
+}
+
 .text-overlay {
     position: absolute;
     font-size: 20px;
+    top: 83%
 }
 
 .headHome-position{
     position: absolute;
-    max-width: 22%; 
-    max-height:22%; 
-    top: 69%;
-    left: 65%;
+    max-width: 20%; 
+    max-height:14%; 
+    top: 71%;
+    left: 66%;
 }
 
 
