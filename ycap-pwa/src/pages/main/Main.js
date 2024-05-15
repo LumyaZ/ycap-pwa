@@ -8,10 +8,13 @@ import cloudHot from '../../assets/cloud-hot.png';
 import cloudCold from '../../assets/cloud-cold.png';
 import iconRed from '../../assets/icons-portail/icon-red.png';
 import { useParams } from 'react-router-dom';
-import { useDeviceOrientation } from 'react-device-orientation-hook';
-
 
 async function getUserLocation() {
+  const options = {
+    enableHighAccuracy: false,
+    timeout: 5000,
+    maximumAge: 0,
+  };
     return new Promise((resolve, reject) => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -37,7 +40,8 @@ async function getUserLocation() {
                 errorMessage = "An unknown error occurred.";
             }
             reject(new Error(errorMessage));
-          }
+          },
+          options
         );
       } else {
         reject(new Error("Geolocation is not supported by this browser."));
@@ -78,7 +82,7 @@ function Main() {
     const [dataPoi, setDataPoi] = useState(null);  
     const [location, setLocation] = useState(null);  
     const [showAR, setShowAR] = useState(false);
-    
+
     const calculateBearing = (alpha) => {
       // Adjust the alpha angle to be between 0 and 360 degrees
       let newBearing = alpha % 360;
@@ -137,31 +141,16 @@ function Main() {
     };
 
 
-    function calculateDistanceAndBearing(lat1, lon1, lat2, lon2) {
-        const R = 6371e3;
-        const φ1 = lat1 * Math.PI/180; 
-        const λ1 = lon1 * Math.PI/180; 
-        const φ2 = lat2 * Math.PI/180; 
-        const λ2 = lon2 * Math.PI/180; 
-    
-        const Δφ = φ2 - φ1;
-        const Δλ = λ2 - λ1;
-    
-        const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-                  Math.cos(φ1) * Math.cos(φ2) *
-                  Math.sin(Δλ/2) * Math.sin(Δλ/2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    
-        const distance = R * c;
-    
-        const y = Math.sin(Δλ) * Math.cos(φ2);
-        const x = Math.cos(φ1)*Math.sin(φ2) -
-                  Math.sin(φ1)*Math.cos(φ2)*Math.cos(Δλ);
-        let bearing = Math.atan2(y, x) * 180/Math.PI;
-    
-        bearing = (bearing + 360) % 360;
-        
-        return { distance };
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371; // Rayon de la Terre en kilomètres
+      const dLat = (lat2 - lat1) * (Math.PI / 180);
+      const dLon = (lon2 - lon1) * (Math.PI / 180);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const distance = (R * c)* 1000; // Distance en mètre
+      return {distance};
     }
 
     //code arjs
@@ -190,10 +179,10 @@ function Main() {
             getUserLocation()
                 .then(location => {
                     setLocation(location);                    
-                    const {distance } = calculateDistanceAndBearing(location[0], location[1], dataPoi.Latitude, dataPoi.Longitude);
+                    const {distance } = calculateDistance(location[0], location[1], dataPoi.Latitude, dataPoi.Longitude);
                     setDistance(distance.toFixed(0));
                     updateTemperature(distance);
-                    console.log(distance, bearing)
+                    console.log(location[0], location[1])
                 })
                 .catch(error => console.error('Error getting location:', error));
         }, 3000);
