@@ -1,19 +1,16 @@
 .card {
-    margin: 2rem;
+    margin: 1rem;
     max-width: 400px;
     background-color: #F7E4D7;
     border: 2px solid black;
     align-items: center;
     padding: 1rem;
-  }
-  
-  .content {
-    padding: 1.5rem;
+    height: 80%;
   }
   
   .image {
     position: absolute;
-    top: 39%; 
+    top: 36%; 
     left: 65%;
     width: 25%;
     height: 125px;
@@ -23,8 +20,8 @@
     color: #000;
     font-size: 1.4rem;
     line-height: 2rem;
-    padding: 2rem;
     text-align: center;
+    margin-top: 5rem;
   }
   
   .button {
