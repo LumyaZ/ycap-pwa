@@ -1,14 +1,14 @@
-  import React, { useEffect, useState } from 'react';
-  import './Home.css';
-  import Concept from '../../components/concept/concept';
-  import indicatorchoix from '../../assets/indicatorChoix.png';
-  import croix from '../../assets/croix.png';
-  import headHome from '../../assets/headHome.png';
-  import burger from '../../assets/burger.png';
-  import VerticalMenu from '../../components/vertical-menu/verticalMenu';
-  import arrow from '../../assets/arrow.png';
-  import CarouselItem from '../../components/carroussel/carroussel-item/carroussel-item.js';
-  import InfoPortail from '../../components/info-portail/infoPortail.js';
+import React, { useEffect, useState } from 'react';
+import './Home.css';
+import Concept from '../../components/concept/concept';
+import indicatorchoix from '../../assets/indicatorChoix.png';
+import croix from '../../assets/croix.png';
+import headHome from '../../assets/headHome.png';
+import burger from '../../assets/burger.png';
+import VerticalMenu from '../../components/vertical-menu/verticalMenu';
+import arrow from '../../assets/arrow.png';
+import CarouselItem from '../../components/carroussel/carroussel-item/carroussel-item.js';
+import InfoPortail from '../../components/info-portail/infoPortail.js';
 import CardEasteregg from '../../components/cardEasterEgg/cardEasterEgg.js';
 
   async function loadCities() {
@@ -84,38 +84,44 @@ import CardEasteregg from '../../components/cardEasterEgg/cardEasterEgg.js';
   }
 
   async function getUserLocation() {
-    return new Promise((resolve, reject) => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          function(position) {
-            resolve([position.coords.latitude, position.coords.longitude]);
-          },
-          function(error) {
-            let errorMessage;
-            switch(error.code) {
-              case error.PERMISSION_DENIED:
-                errorMessage = "User denied the request for Geolocation.";
-                break;
-              case error.POSITION_UNAVAILABLE:
-                errorMessage = "Location information is unavailable.";
-                break;
-              case error.TIMEOUT:
-                errorMessage = "The request to get user location timed out.";
-                break;
-              case error.UNKNOWN_ERROR:
-                errorMessage = "An unknown error occurred.";
-                break;
-              default:
-                errorMessage = "An unknown error occurred.";
-            }
-            reject(error.code);
-          }
-        );
-      } else {
-        reject(new Error("Geolocation is not supported by this browser."));
-      }
-    });
-  }
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 1000,
+      maximumAge: 0,
+    };
+      return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            function(position) {
+              resolve([position.coords.latitude, position.coords.longitude]);
+            },
+            function(error) {
+              let errorMessage;
+              switch(error.code) {
+                case error.PERMISSION_DENIED:
+                  errorMessage = "User denied the request for Geolocation.";
+                  break;
+                case error.POSITION_UNAVAILABLE:
+                  errorMessage = "Location information is unavailable.";
+                  break;
+                case error.TIMEOUT:
+                  errorMessage = "The request to get user location timed out.";
+                  break;
+                case error.UNKNOWN_ERROR:
+                  errorMessage = "An unknown error occurred.";
+                  break;
+                default:
+                  errorMessage = "An unknown error occurred.";
+              }
+              reject(new Error(errorMessage));
+            },
+            options
+          );
+        } else {
+          reject(new Error("Geolocation is not supported by this browser."));
+        }
+      });
+    }
 
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -163,6 +169,7 @@ function Home() {
           localStorage.setItem('userLongitude', loca[1]);
     
           const cities = await loadCities();
+
     
           const filteredCities = cities.filter(city => {
             const distance = calculateDistance(loca[0], loca[1], city.Latitude, city.Longitude);
@@ -174,11 +181,7 @@ function Home() {
             setIsConditionCard(true)
           }
     
-          if (filteredCities.length > 1) {
-            alert("Plusieurs villes");
-          }
-    
-          if (filteredCities.length === 1) {
+          if (filteredCities.length > 0) {
             const pois = await loadPOISByCityId(filteredCities[0].ID);
             setPoisData(pois);
             setError(false)
