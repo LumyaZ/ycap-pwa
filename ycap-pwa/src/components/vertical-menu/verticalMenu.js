@@ -23,7 +23,7 @@ function VerticalMenu({ isOpen, onClose }) {
             <div className="bullet-main">
               <img src={iconRed} alt="icon-red" className='icon-red-img'/>
             </div> 
-            <span style={{ margin: '10px' }}>{cityData.cityName} - {poiName}</span>
+            <span style={{ margin: '10px 20px' }}>{cityData.cityName} - {poiName}</span>
           </li>
         ))}
       </ul>
