@@ -258,7 +258,7 @@ function Home() {
           {!error &&  (
           <div className="blue-section">
             <div className="header">
-              <h2 className='header-title'>Hello there !</h2>
+              <h2 className='header-title'>Helloaaaaaaaaaa there !</h2>
               <img src={arrow} alt="arrow" className='img-arrow-home'/>
             </div>
             <Concept/>
