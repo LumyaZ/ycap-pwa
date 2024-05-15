@@ -83,15 +83,6 @@ function Main() {
     const [location, setLocation] = useState(null);  
     const [showAR, setShowAR] = useState(false);
 
-    const calculateBearing = (alpha) => {
-      // Adjust the alpha angle to be between 0 and 360 degrees
-      let newBearing = alpha % 360;
-      if (newBearing < 0) {
-          newBearing += 360;
-      }
-      console.log(newBearing)
-      setBearing(newBearing);
-  };
 
     const updateTemperature = (distance) => {
         setTemperature(distance < 500 ? 'hot' : 'cold');
@@ -106,12 +97,9 @@ function Main() {
         setMenuOpen(!menuOpen);
     };
 
-    const handleOrientationChange = (event) => {
-      const { alpha } = event;
-      if (typeof alpha === 'number') {
-          calculateBearing(alpha);
-      }
-  };
+    useEffect(() => {
+
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -163,7 +151,7 @@ function Main() {
             arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
             
             <a-camera gps-camera rotation-reader></a-camera>
-            <a-entity gltf-model="./assets/portail/portal_1.gltf" rotation="0 90 0" scale="4 4 4" gps-entity-place="longitude: 3.065570; latitude: 50.640530;" animation-mixer/>
+            <a-entity gltf-model=".\assets\portail\portal_1.gltf" rotation="0 90 0" scale="4 4 4" gps-entity-place="longitude: 3.065570; latitude: 50.640530;" animation-mixer/>
         </a-scene>
     </div>
 
@@ -179,10 +167,43 @@ function Main() {
                 })
                 .catch(error => console.error('Error getting location:', error));
         }, 1000);
-        
         return () => clearInterval(interval);
     }, [location, dataPoi, distance, bearing]);
 
+    useEffect(() => {
+      const updateBearing = () => {
+          if (location && dataPoi) {
+              const userLat = location[0];
+              const userLng = location[1];
+              const poiLat = dataPoi.Latitude;
+              const poiLng = dataPoi.Longitude;
+  
+              // Calcul de la différence de longitude
+              const deltaLng = poiLng - userLng;
+  
+              // Calcul de l'angle en radians
+              const y = Math.sin(deltaLng) * Math.cos(poiLat);
+              const x = Math.cos(userLat) * Math.sin(poiLat) -
+                  Math.sin(userLat) * Math.cos(poiLat) * Math.cos(deltaLng);
+              let angle = Math.atan2(y, x);
+  
+              // Conversion de l'angle en degrés
+              angle = angle * (180 / Math.PI);
+  
+              // Ajustement de l'angle pour qu'il soit compris entre 0 et 360 degrés
+              angle = (angle + 360) % 360;
+  
+              // Mise à jour de l'état bearing
+              setBearing(angle);
+          }
+      };
+  
+      // Appel de la fonction de mise à jour du bearing à chaque changement de location ou de POI
+      updateBearing();
+  
+  }, [location, dataPoi]);
+
+  
     return (
         <div>
             <div className='background-main'>
