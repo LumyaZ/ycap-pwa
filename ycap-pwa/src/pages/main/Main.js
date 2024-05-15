@@ -98,17 +98,6 @@ function Main() {
     };
 
     useEffect(() => {
-        window.addEventListener('deviceorientation', handleOrientationChange);
-        return () => {
-            window.removeEventListener('deviceorientation', handleOrientationChange);
-        };
-    }, []);
-
-    useEffect(() => {
-
-    }, []);
-
-    useEffect(() => {
         const fetchData = async () => {
             try {
                 const dataPoi = await loadPOIById(id);
