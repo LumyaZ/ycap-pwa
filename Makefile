@@ -6,12 +6,12 @@ endif
 
 ifeq ($(ENV),dev)
 SSH_PORT=221
-REACT_APP_API_URL=https://chasseauxportails-ws-dev.bcd.tech/
+REACT_APP_API_URL=https://chasseauxportails-ws-dev.bcd.tech
 endif
 
 ifeq ($(ENV),prod)
 SSH_PORT=222
-REACT_APP_API_URL=https://chasseauxportails-ws-prod.bcd.tech/
+REACT_APP_API_URL=https://chasseauxportails-ws-prod.bcd.tech
 endif
 
 build:
@@ -19,4 +19,4 @@ build:
 
 deploy: build
 	ssh -o StrictHostKeyChecking=no -p $(SSH_PORT) $(SSH_USER)@$(SSH_HOST) "rm -rf $(APP_PATH) && mkdir -p $(APP_PATH)"
-	scp -o StrictHostKeyChecking=no -P $(SSH_PORT) -r build/* $(SSH_USER)@$(SSH_HOST):$(APP_PATH)
+	scp -o StrictHostKeyChecking=no -P $(SSH_PORT) -r ycap-pwa/build/* $(SSH_USER)@$(SSH_HOST):$(APP_PATH)
