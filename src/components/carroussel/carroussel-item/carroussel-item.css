@@ -1,0 +1,88 @@
+.carousel-item {
+    width: 150px; 
+    height: 150px; 
+    margin-right: 10px;
+    margin-left: 10px;
+    flex-shrink: 0;
+    position: relative; 
+  }
+  
+.square {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140px; 
+    height: 120px; /* Hauteur du carré moyen */
+    background-color: #FAE3D5; /* Couleur du carré moyen */
+    z-index: 1; 
+    border: 3px solid #000;
+    border-radius: 0.5em;
+    margin: 0.5em;
+    overflow: auto;
+    word-wrap: break-word;
+  }
+  
+  .small-square {
+    position: absolute;
+    left:30%; 
+    z-index: 2;
+  }
+  
+  .circle {
+    position: absolute;
+    bottom: -10px; 
+    left: 55%;
+    transform: translateX(-50%);
+    width: 100px; 
+    height: 30px; /* Hauteur du cercle ovale */
+    background-color: #E5E5E5; /* Couleur du cercle ovale */
+    border-radius: 50%; 
+    z-index: 2; 
+    border: 3px solid #000;
+    text-align: center;
+  }
+
+.button-choice{
+    width: 80%;
+    background-color: #000;
+    border-radius: 1em;
+    color: #fff;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.item-title{
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+    margin-left: 1em;
+    margin-right: 1em;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    display: block;
+}
+
+.button-info{
+    background-color: transparent;
+    height: 100%;
+    border: none;
+    font-size: 1em;
+    text-align: center;
+}
+.txt-item{
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+
+.item-title:hover::after {
+  content: attr(title); 
+  position: absolute;
+  top: 100%; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  white-space: normal; 
+  z-index: 1;
+}

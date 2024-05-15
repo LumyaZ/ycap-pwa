@@ -1,0 +1,47 @@
+.concept-container {
+    background-color: #F8F8F8; 
+    margin: 0.5em 1em;
+    border: 3px solid #000;
+  }
+  
+.concept-header {
+    text-align: center; 
+}
+.concept-header-title{
+    margin: 0.1em 0;
+}
+
+.sub-concept-1,
+.sub-concept-2,
+.sub-concept-3 {
+  border-top: 3px solid black;
+  line-height: 2em; 
+  display: flex; 
+  align-items: center;
+}
+
+.sub-concept-number-1,
+.sub-concept-number-2,
+.sub-concept-number-3 {
+    text-align: center;
+    border-right: 2px solid #000;
+    font-size: 1.5em;
+}
+
+.sub-concept-number-1 {
+    width: 10%; 
+}
+
+.sub-concept-number-2 {
+    width: 15%;
+}
+
+.sub-concept-number-3 {
+    width: 20%; 
+}
+
+.sub-concept-txt {
+  flex: 1;
+  padding-left: 10px; 
+}
+  
