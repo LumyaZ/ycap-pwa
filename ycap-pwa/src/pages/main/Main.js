@@ -8,6 +8,8 @@ import cloudHot from '../../assets/cloud-hot.png';
 import cloudCold from '../../assets/cloud-cold.png';
 import iconRed from '../../assets/icons-portail/icon-red.png';
 import { useParams } from 'react-router-dom';
+import { useDeviceOrientation } from 'react-device-orientation-hook';
+
 
 async function getUserLocation() {
     return new Promise((resolve, reject) => {
@@ -69,7 +71,6 @@ async function loadPOIById(selectedPoiId) {
 
 function Main() {
     const { id } = useParams();
-
     const [menuOpen, setMenuOpen] = useState(false);
     const [temperature, setTemperature] = useState('hot');
     const [distance, setDistance] = useState('x');
@@ -77,6 +78,16 @@ function Main() {
     const [dataPoi, setDataPoi] = useState(null);  
     const [location, setLocation] = useState(null);  
     const [showAR, setShowAR] = useState(false);
+    
+    const calculateBearing = (alpha) => {
+      // Adjust the alpha angle to be between 0 and 360 degrees
+      let newBearing = alpha % 360;
+      if (newBearing < 0) {
+          newBearing += 360;
+      }
+      console.log(newBearing)
+      setBearing(newBearing);
+  };
 
     const updateTemperature = (distance) => {
         setTemperature(distance < 500 ? 'hot' : 'cold');
@@ -90,6 +101,20 @@ function Main() {
     const handleToggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
+
+    useEffect(() => {
+        window.addEventListener('deviceorientation', handleOrientationChange);
+        return () => {
+            window.removeEventListener('deviceorientation', handleOrientationChange);
+        };
+    }, []);
+
+    const handleOrientationChange = (event) => {
+      const { alpha } = event;
+      if (typeof alpha === 'number') {
+          calculateBearing(alpha);
+      }
+  };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -136,7 +161,7 @@ function Main() {
     
         bearing = (bearing + 360) % 360;
         
-        return { distance, bearing };
+        return { distance };
     }
 
     //code arjs
@@ -161,23 +186,14 @@ function Main() {
     </div>
 
     useEffect(() => {
-        getUserLocation()
-                .then(location => {
-                    setLocation(location);                    
-                    const {distance, bearing} = calculateDistanceAndBearing(location[0], location[1], dataPoi.Latitude, dataPoi.Longitude);
-                    setDistance(distance.toFixed(0));
-                    setBearing(bearing.toFixed(0));
-                    updateTemperature(distance);
-                })
-                .catch(error => console.error('Error getting location:', error));
         const interval = setInterval(() => {
             getUserLocation()
                 .then(location => {
                     setLocation(location);                    
-                    const {distance, bearing} = calculateDistanceAndBearing(location[0], location[1], dataPoi.Latitude, dataPoi.Longitude);
+                    const {distance } = calculateDistanceAndBearing(location[0], location[1], dataPoi.Latitude, dataPoi.Longitude);
                     setDistance(distance.toFixed(0));
-                    setBearing(bearing.toFixed(0));
                     updateTemperature(distance);
+                    console.log(distance, bearing)
                 })
                 .catch(error => console.error('Error getting location:', error));
         }, 3000);
