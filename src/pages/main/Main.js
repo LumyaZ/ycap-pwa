@@ -114,9 +114,7 @@ function Main() {
       const cityDataStr = localStorage.getItem('cityData');
       if (cityDataStr) {
           const cityData = JSON.parse(cityDataStr);
-          // Check if the name already exists in pois array
           if (!cityData.pois.includes(dataPoi.Name)) {
-              // If it doesn't exist, add it to the array
               cityData.pois.push(dataPoi.Name);
               localStorage.setItem('cityData', JSON.stringify(cityData));
           }
