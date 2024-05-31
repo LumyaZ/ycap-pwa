@@ -235,6 +235,8 @@ function Home() {
           if (filteredCities.length > 1) {
             alert("Plusieurs villes");
           }
+
+          console.log(filteredCities)
     
           if (filteredCities.length === 1) {
             const pois = await loadPOISByCityId(filteredCities[0].ID);
@@ -281,12 +283,11 @@ function Home() {
           {!error && (
           <div className="pink-section">
             <div className="left-zone">
-              <img src={croix} alt="" className="centered-image" />
+              <img src={croix} alt="" className="centered-image-footer" />
             </div>
             <div className="middle-zone">
               <img src={indicatorchoix} alt="" className="centered-image-middle" />
               <img src={headHome} alt="" className='headHome-position'/>
-              <div className="text-overlay">Choisis un easter egg</div>
             </div>
             <div className="right-zone">
               <img src={croix} alt="" className="centered-image" />
