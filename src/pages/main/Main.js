@@ -112,6 +112,7 @@ function Main() {
   }, [id]);
 
   const handleShowAR = () => {
+    console.log("euh")
     const cityDataStr = localStorage.getItem('cityData');
     if (cityDataStr) {
       const cityData = JSON.parse(cityDataStr);
