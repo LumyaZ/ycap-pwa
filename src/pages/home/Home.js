@@ -272,6 +272,10 @@ function Home() {
     }
   };
 
+  const handleRedirect = () => {
+    window.location.href = 'https://www.ynov.com';
+  };
+
   return (
     <div>
       <div className="background">
@@ -341,7 +345,7 @@ function Home() {
           <button className="footer-button" onClick={handleToggleMenu}>
             <img src={burger} alt="" className="centered-image" />
           </button>
-          <button className="footer-button central">ynov.com</button>
+          <button className="footer-main-button central-main" onClick={handleRedirect}>ynov.com</button>
           <button className="footer-button">i</button>
         </footer>
         <VerticalMenu

@@ -174,6 +174,10 @@ function Main() {
     updateBearing();
   }, [location, dataPoi]);
 
+  const handleRedirect = () => {
+    window.location.href = 'https://www.ynov.com';
+  };
+
   return (
     <div>
       <div className='background-main'>
@@ -227,7 +231,7 @@ function Main() {
           <button className="footer-main-button" onClick={handleToggleMenu}>
             <img src={burger} alt="" className="centered-image" />
           </button>
-          <button className="footer-main-button central-main">ynov.com</button>
+          <button className="footer-main-button central-main" onClick={handleRedirect}>ynov.com</button>
           <button className="footer-main-button">i</button>
         </footer>
       </div>
