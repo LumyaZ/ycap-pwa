@@ -10,6 +10,8 @@ import iconRed from '../../assets/icons-portail/icon-red.png';
 import { useParams } from 'react-router-dom';
 import WebcamCapture from '../../components/WebcamCapture/WebcamCapture';
 import ThreeScene from '../../components/ThreeScene/ThreeScene';
+import { Canvas } from '@react-three/fiber'
+
 
 async function getUserLocation() {
   const options = {
@@ -84,7 +86,7 @@ function Main() {
   const [dataPoi, setDataPoi] = useState(null);  
   const [location, setLocation] = useState(null);  
   const [showAR, setShowAR] = useState(false);
-  const webcamRef = useRef(null);
+  const webcamStreamRef = useRef(null);
 
   const updateTemperature = (distance) => {
     setTemperature(distance < 500 ? 'hot' : 'cold');
@@ -236,10 +238,12 @@ function Main() {
         </footer>
       </div>
       {showAR && (
+        
         <div className="ar-container">
-          <WebcamCapture ref={webcamRef} />
-          <ThreeScene modelUrl="/models/portal_1.gltf" />
-          </div>
+        <WebcamCapture />
+        <ThreeScene modelUrl="/models/portal_1.gltf" />
+      </div>
+          
       )}
       <VerticalMenu isOpen={menuOpen} onClose={handleToggleMenu} />
     </div>
