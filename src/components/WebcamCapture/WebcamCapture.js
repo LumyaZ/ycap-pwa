@@ -4,7 +4,13 @@ const WebcamCapture = React.forwardRef((props, ref) => {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia({ video: true })
+    const constraints = {
+      video: {
+        facingMode: 'environment'
+      }
+    };
+
+    navigator.mediaDevices.getUserMedia(constraints)
       .then(stream => {
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
@@ -17,7 +23,7 @@ const WebcamCapture = React.forwardRef((props, ref) => {
 
   return (
     <div className="webcam-container">
-      <video ref={videoRef} autoPlay style={{ width: '100%' }} />
+      <video ref={videoRef} autoPlay style={{ width: '100%', position: 'absolute', top: 0, left: 0 }} />
     </div>
   );
 });
