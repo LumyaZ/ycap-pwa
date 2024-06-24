@@ -1,25 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 const ThreeScene = ({ modelUrl }) => {
-  useEffect(() => {
-    const container = document.createElement('div');
-    container.className = 'three-container';
-    document.body.appendChild(container);
+  const canvasRef = useRef(null);
 
+  useEffect(() => {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    container.appendChild(renderer.domElement);
 
     const loader = new GLTFLoader();
     loader.load(
       modelUrl,
       (gltf) => {
         console.log('GLTF loaded successfully:', gltf);
-        scene.add(gltf.scene);
+        const model = gltf.scene;
+        scene.add(model);
+
+        model.position.set(0, 0, -5);
+        model.scale.set(0.5, 0.5, 0.5);
       },
       undefined,
       (error) => {
@@ -35,13 +36,23 @@ const ThreeScene = ({ modelUrl }) => {
     };
     animate();
 
+    const handleResize = () => {
+      const { clientWidth, clientHeight } = canvasRef.current;
+      renderer.setSize(clientWidth, clientHeight);
+      camera.aspect = clientWidth / clientHeight;
+      camera.updateProjectionMatrix();
+    };
+
+    window.addEventListener('resize', handleResize);
+
     return () => {
-      container.removeChild(renderer.domElement);
-      document.body.removeChild(container);
+      window.removeEventListener('resize', handleResize);
     };
   }, [modelUrl]);
 
-  return <div />;
+  return (
+    <div className="three-container" ref={canvasRef} />
+  );
 };
 
 export default ThreeScene;
