@@ -183,15 +183,36 @@
     align-items: center; 
 }*/
 
-
 .ar-container {
-    position: relative;
-    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vh;
     height: 100vh;
-    overflow: hidden; /* Prevent overflow */
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
   }
   
-  .webcam-container, .three-container {
+  .close-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+  }
+  
+  .webcam-container,
+  .three-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -200,14 +221,12 @@
   }
   
   .webcam-container {
-    z-index: 0; /* Ensure webcam is behind */
+    z-index: 0;
   }
   
   .three-container {
-    z-index: 1; /* Ensure Three.js scene is on top */
+    z-index: 1;
   }
-  
-  
   
   
   

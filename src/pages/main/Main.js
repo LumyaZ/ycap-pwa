@@ -10,48 +10,6 @@ import iconRed from '../../assets/icons-portail/icon-red.png';
 import { useParams } from 'react-router-dom';
 import WebcamCapture from '../../components/WebcamCapture/WebcamCapture';
 import ThreeScene from '../../components/ThreeScene/ThreeScene';
-import { Canvas } from '@react-three/fiber'
-
-
-async function getUserLocation() {
-  const options = {
-    enableHighAccuracy: true,
-    timeout: 1000,
-    maximumAge: 0,
-  };
-  return new Promise((resolve, reject) => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        function(position) {
-          resolve([position.coords.latitude, position.coords.longitude]);
-        },
-        function(error) {
-          let errorMessage;
-          switch(error.code) {
-            case error.PERMISSION_DENIED:
-              errorMessage = "User denied the request for Geolocation.";
-              break;
-            case error.POSITION_UNAVAILABLE:
-              errorMessage = "Location information is unavailable.";
-              break;
-            case error.TIMEOUT:
-              errorMessage = "The request to get user location timed out.";
-              break;
-            case error.UNKNOWN_ERROR:
-              errorMessage = "An unknown error occurred.";
-              break;
-            default:
-              errorMessage = "An unknown error occurred.";
-          }
-          reject(new Error(errorMessage));
-        },
-        options
-      );
-    } else {
-      reject(new Error("Geolocation is not supported by this browser."));
-    }
-  });
-}
 
 async function loadPOIById(selectedPoiId) {
   try {
@@ -70,7 +28,6 @@ async function loadPOIById(selectedPoiId) {
     }
     
     const data = await response.json();
-    console.log(data)
     return data;
   } catch (error) {
     console.error(error);
@@ -86,15 +43,12 @@ function Main() {
   const [dataPoi, setDataPoi] = useState(null);  
   const [location, setLocation] = useState(null);  
   const [showAR, setShowAR] = useState(false);
-  const webcamStreamRef = useRef(null);
+  const watchId = useRef(null);
 
   const updateTemperature = (distance) => {
     setTemperature(distance < 500 ? 'hot' : 'cold');
   };
 
-  const toggleTemperature = () => {
-    setTemperature(prevTemperature => (prevTemperature === 'hot' ? 'cold' : 'hot'));
-  };
   const temperatureClass = temperature === 'hot' ? 'hot' : 'cold';
 
   const handleToggleMenu = () => {
@@ -105,7 +59,7 @@ function Main() {
     const fetchData = async () => {
       try {
         const dataPoi = await loadPOIById(id);
-        setDataPoi(dataPoi)
+        setDataPoi(dataPoi);
       } catch (error) {
         console.error(error);
       }
@@ -138,42 +92,72 @@ function Main() {
   }
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      getUserLocation()
-        .then(location => {
-          setLocation(location);
-          console.log(dataPoi)               
+    if (!navigator.geolocation) {
+      console.error("Geolocation is not supported by this browser.");
+      return;
+    }
+
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 1000,
+      maximumAge: 0
+    };
+
+    watchId.current = navigator.geolocation.watchPosition(
+      (position) => {
+        const location = [position.coords.latitude, position.coords.longitude];
+        setLocation(location);
+
+        if (dataPoi) {
           const { distance } = calculateDistance(location[0], location[1], dataPoi.Latitude, dataPoi.Longitude);
           setDistance(distance.toFixed(0));
           updateTemperature(distance);
-        })
-        .catch(error => console.error('Error getting location:', error));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [location, dataPoi, distance, bearing]);
+        }
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+      },
+      options
+    );
+
+    return () => {
+      if (watchId.current !== null) {
+        navigator.geolocation.clearWatch(watchId.current);
+      }
+    };
+  }, [dataPoi]);
 
   useEffect(() => {
-    const updateBearing = () => {
-      if (location && dataPoi) {
-        const userLat = location[0];
-        const userLng = location[1];
-        const poiLat = dataPoi.Latitude;
-        const poiLng = dataPoi.Longitude;
+    const handleOrientation = (event) => {
+      const alpha = event.alpha;
+      if (alpha !== null) {
+        if (location && dataPoi) {
+          const userLat = location[0];
+          const userLng = location[1];
+          const poiLat = dataPoi.Latitude;
+          const poiLng = dataPoi.Longitude;
 
-        const deltaLng = poiLng - userLng;
-        const y = Math.sin(deltaLng) * Math.cos(poiLat);
-        const x = Math.cos(userLat) * Math.sin(poiLat) -
-          Math.sin(userLat) * Math.cos(poiLat) * Math.cos(deltaLng);
-        let angle = Math.atan2(y, x);
+          const deltaLng = poiLng - userLng;
+          const y = Math.sin(deltaLng) * Math.cos(poiLat);
+          const x = Math.cos(userLat) * Math.sin(poiLat) -
+            Math.sin(userLat) * Math.cos(poiLat) * Math.cos(deltaLng);
+          let angle = Math.atan2(y, x);
 
-        angle = angle * (180 / Math.PI);
-        angle = (angle + 360) % 360;
+          angle = angle * (180 / Math.PI);
+          angle = (angle + 360) % 360;
 
-        setBearing(angle);
+          const heading = (alpha + angle) % 360;
+
+          setBearing(heading);
+        }
       }
     };
 
-    updateBearing();
+    window.addEventListener('deviceorientation', handleOrientation);
+
+    return () => {
+      window.removeEventListener('deviceorientation', handleOrientation);
+    };
   }, [location, dataPoi]);
 
   const handleRedirect = () => {
@@ -200,7 +184,7 @@ function Main() {
             </div>
           </div>
                                       
-          <div className='boussole-img' >
+          <div className='boussole-img'>
             <img src={chevron} alt="" style={{ transform: `rotate(${bearing}deg)` }}/>
           </div>
 
@@ -238,13 +222,13 @@ function Main() {
         </footer>
       </div>
       {showAR && (
-        
         <div className="ar-container">
-        <WebcamCapture />
-        <ThreeScene modelUrl="/models/portal_1.gltf" />
-      </div>
-          
+          <WebcamCapture />
+          <ThreeScene modelUrl="/models/batiment.glb" />
+          <button onClick={() => setShowAR(false)} className="close-button">Close AR</button>
+        </div>
       )}
+
       <VerticalMenu isOpen={menuOpen} onClose={handleToggleMenu} />
     </div>
   );
