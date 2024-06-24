@@ -272,6 +272,12 @@ function Home() {
     }
   };
 
+  const handleRedirect = () => {
+    window.location.href = 'https://www.ynov.com';
+  };
+  
+  const pdfUrl = 'https://drive.google.com/file/d/1_VaiwiVnFlukM56_6KL4_Hs86O3OC_y2/view?usp=drive_link';
+
   return (
     <div>
       <div className="background">
@@ -341,8 +347,8 @@ function Home() {
           <button className="footer-button" onClick={handleToggleMenu}>
             <img src={burger} alt="" className="centered-image" />
           </button>
-          <button className="footer-button central">ynov.com</button>
-          <button className="footer-button">i</button>
+          <button className="footer-main-button central-main" onClick={handleRedirect}>ynov.com</button>
+          <button className="footer-main-button" onClick={() => window.open(pdfUrl, '_blank')}>i</button>
         </footer>
         <VerticalMenu
           isOpen={menuOpen}
