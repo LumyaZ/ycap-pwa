@@ -1,16 +1,23 @@
-import React from 'react';
-import Webcam from 'react-webcam';
+import React, { useRef, useEffect } from 'react';
 
 const WebcamCapture = React.forwardRef((props, ref) => {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      })
+      .catch(err => {
+        console.error("Error accessing webcam: ", err);
+      });
+  }, []);
+
   return (
-    <div style={{ width: '100%', height: '100%' }}>
-      <Webcam
-        audio={false}
-        ref={ref}
-        screenshotFormat="image/jpeg"
-        videoConstraints={{ facingMode: "environment" }}
-        style={{ width: '100%', height: '100%' }}
-      />
+    <div className="webcam-container">
+      <video ref={videoRef} autoPlay style={{ width: '100%' }} />
     </div>
   );
 });

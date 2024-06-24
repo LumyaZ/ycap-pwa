@@ -8,8 +8,8 @@ import cloudHot from '../../assets/cloud-hot.png';
 import cloudCold from '../../assets/cloud-cold.png';
 import iconRed from '../../assets/icons-portail/icon-red.png';
 import { useParams } from 'react-router-dom';
-import WebcamCapture from '../WebcamCapture/WebcamCapture';
-import ThreeScene from '../ThreeScene/ThreeScene';
+import WebcamCapture from '../../components/WebcamCapture/WebcamCapture';
+import ThreeScene from '../../components/ThreeScene/ThreeScene';
 
 async function getUserLocation() {
   const options = {
@@ -112,7 +112,6 @@ function Main() {
   }, [id]);
 
   const handleShowAR = () => {
-    console.log("euh")
     const cityDataStr = localStorage.getItem('cityData');
     if (cityDataStr) {
       const cityData = JSON.parse(cityDataStr);
@@ -125,14 +124,14 @@ function Main() {
   };
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Radius of the Earth in kilometers
+    const R = 6371;
     const dLat = (lat2 - lat1) * (Math.PI / 180);
     const dLon = (lon2 - lon1) * (Math.PI / 180);
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = (R * c) * 1000; // Distance in meters
+    const distance = (R * c) * 1000;
     return { distance };
   }
 
@@ -235,8 +234,8 @@ function Main() {
       {showAR && (
         <div className="ar-container">
           <WebcamCapture ref={webcamRef} />
-          <ThreeScene modelUrl="../../assets/portail/portal_1.gltf" />
-        </div>
+          <ThreeScene modelUrl="/models/portal_1.gltf" />
+          </div>
       )}
       <VerticalMenu isOpen={menuOpen} onClose={handleToggleMenu} />
     </div>

@@ -194,4 +194,20 @@
   .ar-button {
     margin-top: 20px;
   }
+
+  .webcam-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+  
+  .three-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+  
   
