@@ -224,7 +224,7 @@ function Main() {
       {showAR && (
         <div className="ar-container">
           <WebcamCapture />
-          <ThreeScene modelUrl="/models/batiment.glb" />
+          <ThreeScene modelUrl="/models/orb.glb" spawnModelUrl="/models/batiment.glb" />
           <button onClick={() => setShowAR(false)} className="close-button">Close AR</button>
         </div>
       )}
