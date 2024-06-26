@@ -64,6 +64,7 @@ function Main() {
         console.error(error);
       }
     };
+    
     fetchData();
   }, [id]);
 
@@ -74,6 +75,7 @@ function Main() {
       if (!cityData.pois.includes(dataPoi.Name)) {
         cityData.pois.push(dataPoi.Name);
         localStorage.setItem('cityData', JSON.stringify(cityData));
+
       }
     }
     setShowAR(true);

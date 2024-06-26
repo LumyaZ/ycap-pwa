@@ -313,12 +313,14 @@ function Home() {
               <img src={croix} alt="" className="centered-image-footer" />
             </div>
             <div className="middle-zone">
+
               <img
                 src={indicatorchoix}
                 alt=""
                 className="centered-image-middle"
               />
               <img src={headHome} alt="" className="headHome-position" />
+
             </div>
             <div className="right-zone">
               <img src={croix} alt="" className="centered-image" />
